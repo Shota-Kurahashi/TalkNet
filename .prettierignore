@@ -1,0 +1,13 @@
+.next
+next-env.d.ts
+node_modules
+yarn.lock
+package-lock.json
+public
+generated
+functions
+*.generated.ts
+graphql.ts
+__reports__
+coverage
+storybook-static
