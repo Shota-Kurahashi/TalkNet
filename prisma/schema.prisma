@@ -1,0 +1,41 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int       @id @default(autoincrement())
+  email     String    @unique
+  password  String
+  name      String?
+  topics    Topic[]
+  comments  Comment[]
+}
+
+model Topic {
+  id        Int       @id @default(autoincrement())
+  title     String
+  content   String
+  image     String?   // 画像のURLを保存するためのフィールド
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+  comments  Comment[]
+}
+
+
+model Comment {
+  id        Int       @id @default(autoincrement())
+  content   String
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+  topicId   Int
+  topic     Topic     @relation(fields: [topicId], references: [id])
+}
+

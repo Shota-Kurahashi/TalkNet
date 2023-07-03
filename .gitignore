@@ -39,3 +39,20 @@ __reports__
 __mocks__
 
 storybook-static
+
+# Envarionment variables
+
+.env
+.env.*
+
+# Docker Data 
+
+data
+
+# Prisma 
+
+migrations
+
+
+
+
