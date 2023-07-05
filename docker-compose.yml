@@ -29,25 +29,6 @@ services:
     ports:
       - 9000:9000
       - 9001:9001
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - .:/app
-    ports:
-      - "3000:3000"
-    environment:
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
-      AWS_S3_ENDPOINT: http://minio:9000
-      AWS_ACCESS_KEY_ID: root
-      AWS_SECRET_ACCESS_KEY: password
-      DATABASE_URL: mysql://root:root@localhost:3306/db
-    depends_on:
-      - db
-      - redis
-      - minio
 
 volumes:
   maria_data:

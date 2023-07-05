@@ -1,8 +1,11 @@
+import { AppPropsWithLayout } from "src/libs/next";
 import "src/styles/tailwind.css";
-import type { AppProps } from "next/app";
 
-const App = ({ Component, pageProps }: AppProps) => {
-  return <Component {...pageProps} />;
+const App = ({ Component, pageProps }: AppPropsWithLayout) => {
+  const getLayout = Component.getLayout ?? ((page) => page);
+  const getTitle = Component.getTitle ?? ((page) => page);
+
+  return getLayout(getTitle(<Component {...pageProps} />, pageProps));
 };
 
 export default App;

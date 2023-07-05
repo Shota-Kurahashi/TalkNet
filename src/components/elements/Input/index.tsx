@@ -27,7 +27,7 @@ type IconProps = {
   rightIcon?: ReactNode;
 };
 
-type ActionIconProps = React.InputHTMLAttributes<HTMLInputElement> & {
+type InputProps = React.InputHTMLAttributes<HTMLInputElement> & {
   radius?: keyof typeof rounded;
   loading?: boolean;
   theme?: keyof typeof themes;
@@ -44,7 +44,7 @@ type ActionIconProps = React.InputHTMLAttributes<HTMLInputElement> & {
   };
 } & IconProps;
 
-export const Input = forwardRef<HTMLInputElement, ActionIconProps>(
+export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {
       radius = "md",
@@ -94,6 +94,7 @@ export const Input = forwardRef<HTMLInputElement, ActionIconProps>(
             name={props.name}
             placeholder={props.placeholder}
             type={props.type}
+            value={props.value}
             {...props}
           />
           <RightComponent
@@ -123,6 +124,7 @@ export const Input = forwardRef<HTMLInputElement, ActionIconProps>(
           name={props.name}
           placeholder={props.placeholder}
           type={props.type}
+          {...props}
         />
       </>
     );
