@@ -7,6 +7,6 @@ import { NextPageWithLayout } from "src/libs/next/page";
 const Page: NextPageWithLayout = () => <SignUp />;
 
 Page.getLayout = SimpleLayout;
-Page.getTitle = Meta(() => "ログイン - TalkNet");
+Page.getTitle = Meta(() => "新規登録 - TalkNet");
 
 export default Page;

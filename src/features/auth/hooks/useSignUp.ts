@@ -18,7 +18,6 @@ export const useSignUp = () => {
 
       router.push("/");
     } catch (error) {
-      console.log(error);
       onNotification({
         title: "新規登録に失敗しました。",
         message: "メールアドレスまたはパスワードが間違っています。",

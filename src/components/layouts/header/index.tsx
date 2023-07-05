@@ -8,17 +8,21 @@ import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import React, { Fragment, FC } from "react";
+import { Button } from "src/components/elements/Button";
+import { useLogout } from "src/features/auth/hooks/useLogout";
 
 type Props = {
   setSidebarOpen: (open: boolean) => void;
 };
 
 const userNavigation = [
-  { name: "Your profile", href: "#" },
-  { name: "Sign out", href: "#" },
+  { name: "Your profile", component: Link },
+  { name: "Sign out", component: Button },
 ];
 
 export const Header: FC<Props> = ({ setSidebarOpen }) => {
+  const { onClickHandler } = useLogout();
+
   return (
     <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
       <button
@@ -101,17 +105,29 @@ export const Header: FC<Props> = ({ setSidebarOpen }) => {
               <Menu.Items className="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                 {userNavigation.map((item) => (
                   <Menu.Item key={item.name}>
-                    {({ active }) => (
-                      <Link
-                        className={clsx(
-                          active ? "bg-gray-50" : "",
-                          "block px-3 py-1 text-sm leading-6 text-gray-900"
-                        )}
-                        href={item.href}
-                      >
-                        {item.name}
-                      </Link>
-                    )}
+                    {({ active }) =>
+                      item.component === Link ? (
+                        <Link
+                          className={clsx(
+                            active ? "bg-gray-50" : "",
+                            "block w-full px-3 py-1 text-sm leading-6 text-gray-900"
+                          )}
+                          href="/profile"
+                        >
+                          {item.name}
+                        </Link>
+                      ) : (
+                        <button
+                          className={clsx(
+                            active ? "bg-gray-50" : "",
+                            "block w-full px-3 py-1 text-left text-sm leading-6 text-gray-900"
+                          )}
+                          onClick={onClickHandler}
+                        >
+                          {item.name}
+                        </button>
+                      )
+                    }
                   </Menu.Item>
                 ))}
               </Menu.Items>

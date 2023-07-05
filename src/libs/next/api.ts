@@ -10,14 +10,14 @@ export type NextSessionRequest = NextApiRequest & {
 export type ApiHandler<T> = NextApiHandler<T | Error>;
 
 export const withSession = <T>(
-  next: (req: NextSessionRequest, res: NextApiResponse) => Promise<T>
+  next: (req: NextSessionRequest, res: NextApiResponse) => void
 ) => {
   return async (req: NextApiRequest, res: NextApiResponse<T | Error>) => {
     try {
       const session = await getSession(req, res);
       assertUser(session.user);
 
-      await next({ ...req, user: session.user } as NextSessionRequest, res);
+      next({ ...req, user: session.user } as NextSessionRequest, res);
     } catch (error) {
       handleApiError({ res, error });
     }

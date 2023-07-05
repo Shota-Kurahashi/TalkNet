@@ -21,13 +21,24 @@ const signUpHandler = async (data: SignUpSchemaType) => {
   return res.data;
 };
 
+const logoutHandler = async () => {
+  const res = await axios.post<{
+    message: string;
+  }>("/auth/logout");
+
+  return res.data;
+};
+
 export const useMutateAuth = () => {
   const loginMutation = useMutation(loginHandler);
 
   const signUpMutation = useMutation(signUpHandler);
 
+  const logoutMutation = useMutation(logoutHandler);
+
   return {
     loginMutation,
     signUpMutation,
+    logoutMutation,
   };
 };

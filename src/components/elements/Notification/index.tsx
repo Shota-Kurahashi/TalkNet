@@ -68,7 +68,7 @@ export const Notification = () => {
           show={show}
         >
           <div
-            className="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black/50"
+            className="pointer-events-auto w-full max-w-sm overflow-hidden rounded-lg bg-white shadow-lg ring-1 ring-black/5"
             role="alert"
           >
             <div className="p-4">

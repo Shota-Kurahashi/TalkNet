@@ -97,7 +97,7 @@ export const handleApiError = ({
 
   const { message } = errors[status];
 
-  res.status(status).json({
+  res.json({
     message,
     status,
   });
