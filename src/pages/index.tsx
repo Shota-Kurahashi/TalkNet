@@ -8,12 +8,14 @@ const Page: NextPageWithLayout = () => {
   return <main />;
 };
 
-Page.getLayout = BasicLayout;
+Page.getLayout = (page, props) => BasicLayout(page, props);
 Page.getTitle = Meta(() => "TalkNet");
 
 export const getServerSideProps: GetServerSideProps = withSessionPage(
-  async () => {
-    return {};
+  async ({ user }) => {
+    return {
+      user,
+    };
   }
 );
 export default Page;

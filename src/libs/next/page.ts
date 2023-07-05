@@ -1,14 +1,38 @@
+/* eslint-disable @typescript-eslint/ban-types */
 import { GetServerSidePropsContext, NextPage } from "next";
 import { AppProps } from "next/app";
 import { ReactElement, ReactNode } from "react";
-import { HttpError, UnauthorizedError } from "src/libs/error";
+import { Error, HttpError, UnauthorizedError } from "src/libs/error";
 import { User } from "src/libs/schema/user";
 import { getSession } from "src/libs/session";
 import { assertUser } from "src/libs/validation";
 
+type PageProps =
+  | {
+      data: {
+        user: User | null;
+      };
+
+      error: null;
+    }
+  | {
+      data: null;
+      error: Error;
+    };
+
+type DefaultPageProps = {
+  data: {
+    user: null;
+  };
+  error: null;
+};
+
 // eslint-disable-next-line @typescript-eslint/ban-types
-export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
-  getLayout?: (page: ReactElement) => ReactNode;
+export type NextPageWithLayout<
+  P extends PageProps = DefaultPageProps,
+  IP = P
+> = NextPage<P, IP> & {
+  getLayout?: (page: ReactElement, pageProps: P) => ReactNode;
   getTitle?: (page: ReactElement, pageProps: P) => ReactElement;
 };
 

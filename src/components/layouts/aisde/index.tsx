@@ -43,7 +43,7 @@ export const Aside: FC<Props> = ({ sidebarOpen, setSidebarOpen }) => (
             alt="Your Company"
             className="h-8 w-auto"
             height={32}
-            src="/logo.svg"
+            src="/vercel.svg"
             width={32}
           />
         </div>
@@ -53,7 +53,7 @@ export const Aside: FC<Props> = ({ sidebarOpen, setSidebarOpen }) => (
               <ul className="-mx-2 space-y-1">
                 {navigation.map((item) => (
                   <li key={item.name}>
-                    <a
+                    <Link
                       className={clsx(
                         item.current
                           ? "bg-gray-800 text-white"
@@ -67,7 +67,7 @@ export const Aside: FC<Props> = ({ sidebarOpen, setSidebarOpen }) => (
                         className="h-6 w-6 shrink-0"
                       />
                       {item.name}
-                    </a>
+                    </Link>
                   </li>
                 ))}
               </ul>
@@ -173,7 +173,7 @@ export const Aside: FC<Props> = ({ sidebarOpen, setSidebarOpen }) => (
                     alt="Your Company"
                     className="h-8 w-auto"
                     height={32}
-                    src="/logo.svg"
+                    src="/vercel.svg"
                     width={32}
                   />
                 </div>

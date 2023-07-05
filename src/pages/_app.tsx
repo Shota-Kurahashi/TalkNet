@@ -5,7 +5,10 @@ const App = ({ Component, pageProps }: AppPropsWithLayout) => {
   const getLayout = Component.getLayout ?? ((page) => page);
   const getTitle = Component.getTitle ?? ((page) => page);
 
-  return getLayout(getTitle(<Component {...pageProps} />, pageProps));
+  return getLayout(
+    getTitle(<Component {...pageProps} />, pageProps),
+    pageProps
+  );
 };
 
 export default App;

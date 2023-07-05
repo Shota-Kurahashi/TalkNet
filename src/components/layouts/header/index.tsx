@@ -5,14 +5,18 @@ import {
 } from "@heroicons/react/20/solid";
 import { Bars3Icon, BellIcon } from "@heroicons/react/24/outline";
 import clsx from "clsx";
-import Image from "next/image";
 import Link from "next/link";
 import React, { Fragment, FC } from "react";
+import { Avatar } from "src/components/elements/Avatar";
 import { Button } from "src/components/elements/Button";
 import { useLogout } from "src/features/auth/hooks/useLogout";
+import { User } from "src/libs/schema/user";
 
 type Props = {
   setSidebarOpen: (open: boolean) => void;
+  data: {
+    user: User | null;
+  } | null;
 };
 
 const userNavigation = [
@@ -20,7 +24,7 @@ const userNavigation = [
   { name: "Sign out", component: Button },
 ];
 
-export const Header: FC<Props> = ({ setSidebarOpen }) => {
+export const Header: FC<Props> = ({ setSidebarOpen, data }) => {
   const { onClickHandler } = useLogout();
 
   return (
@@ -73,19 +77,13 @@ export const Header: FC<Props> = ({ setSidebarOpen }) => {
           <Menu as="div" className="relative">
             <Menu.Button className="-m-1.5 flex items-center p-1.5">
               <span className="sr-only">Open user menu</span>
-              <Image
-                alt=""
-                className="h-8 w-8 rounded-full bg-gray-50"
-                height={32}
-                src="/avatar.jpg"
-                width={32}
-              />
+              <Avatar />
               <span className="hidden lg:flex lg:items-center">
                 <span
                   aria-hidden="true"
                   className="ml-4 text-sm font-semibold leading-6 text-gray-900"
                 >
-                  Tom Cook
+                  {data?.user?.name}
                 </span>
                 <ChevronDownIcon
                   aria-hidden="true"
@@ -112,7 +110,7 @@ export const Header: FC<Props> = ({ setSidebarOpen }) => {
                             active ? "bg-gray-50" : "",
                             "block w-full px-3 py-1 text-sm leading-6 text-gray-900"
                           )}
-                          href="/profile"
+                          href={`/profile/${data?.user?.id}`}
                         >
                           {item.name}
                         </Link>
