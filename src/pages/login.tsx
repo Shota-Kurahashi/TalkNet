@@ -2,7 +2,7 @@ import React from "react";
 import { SimpleLayout } from "src/components/layouts/BasicLayout";
 import { Login } from "src/features/auth/components/login";
 import { Meta } from "src/libs/meta";
-import { NextPageWithLayout } from "src/libs/next";
+import { NextPageWithLayout } from "src/libs/next/page";
 
 const Page: NextPageWithLayout = () => <Login />;
 

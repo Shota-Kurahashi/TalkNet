@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useNotificationState } from "src/components/elements/Notification/store";
-import { useMutateAuth } from "src/features/auth/api/useMutateLogin";
+import { useMutateAuth } from "src/features/auth/api/useMutateAuth";
 import { SignUpSchemaType } from "src/features/auth/types";
 
 export const useSignUp = () => {
@@ -11,8 +11,14 @@ export const useSignUp = () => {
     try {
       await signUpMutation.mutateAsync(data);
 
+      onNotification({
+        title: "新規登録しました。",
+        type: "success",
+      });
+
       router.push("/");
     } catch (error) {
+      console.log(error);
       onNotification({
         title: "新規登録に失敗しました。",
         message: "メールアドレスまたはパスワードが間違っています。",
@@ -21,13 +27,8 @@ export const useSignUp = () => {
     }
   };
 
-  const onInvalid = () => {
-    console.log("inValid");
-  };
-
   return {
     onValid,
-    onInvalid,
     isLoading: signUpMutation.isLoading,
     isError: signUpMutation.isError,
   };

@@ -1,17 +1,17 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import React from "react";
-import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { Button } from "src/components/elements/Button";
 import { Input } from "src/components/elements/Input";
 import { LoginSchema, LoginSchemaType } from "src/features/auth/types";
 
 type Props = {
   onValid: SubmitHandler<LoginSchemaType>;
-  onInvalid: SubmitErrorHandler<LoginSchemaType>;
+
   isLoading: boolean;
 };
 
-export const LoginForm = ({ onValid, onInvalid, isLoading }: Props) => {
+export const LoginForm = ({ onValid, isLoading }: Props) => {
   const {
     register,
     handleSubmit,
@@ -25,7 +25,7 @@ export const LoginForm = ({ onValid, onInvalid, isLoading }: Props) => {
   });
 
   return (
-    <form className="space-y-6" onSubmit={handleSubmit(onValid, onInvalid)}>
+    <form className="space-y-6" onSubmit={handleSubmit(onValid)}>
       <div>
         <label
           className="block text-sm font-medium leading-6 text-gray-900"

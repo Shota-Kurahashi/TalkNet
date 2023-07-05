@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useNotificationState } from "src/components/elements/Notification/store";
-import { useMutateAuth } from "src/features/auth/api/useMutateLogin";
+import { useMutateAuth } from "src/features/auth/api/useMutateAuth";
 import { LoginSchemaType } from "src/features/auth/types";
 
 export const useLogin = () => {
@@ -21,13 +21,9 @@ export const useLogin = () => {
     }
   };
 
-  const onInvalid = () => {
-    console.log("inValid");
-  };
-
   return {
     onValid,
-    onInvalid,
+
     isLoading: loginMutation.isLoading,
     isError: loginMutation.isError,
   };

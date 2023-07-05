@@ -1,4 +1,5 @@
 import { QueryClient } from "@tanstack/react-query";
+import Axios from "axios";
 
 export const queryClient = new QueryClient({
   defaultOptions: {
@@ -10,4 +11,8 @@ export const queryClient = new QueryClient({
       refetchOnMount: false,
     },
   },
+});
+
+export const axios = Axios.create({
+  baseURL: "/api",
 });

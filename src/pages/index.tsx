@@ -1,6 +1,6 @@
 import { BasicLayout } from "src/components/layouts/BasicLayout";
 import { Meta } from "src/libs/meta";
-import { NextPageWithLayout } from "src/libs/next";
+import { NextPageWithLayout } from "src/libs/next/page";
 
 const Page: NextPageWithLayout = () => {
   return <main />;

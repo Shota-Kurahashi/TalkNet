@@ -17,6 +17,20 @@ model User {
   name      String?
   topics    Topic[]
   comments  Comment[]
+  profile   Profile?
+
+
+
+}
+
+model Profile {
+  id        Int       @id @default(autoincrement())
+  bio       String
+  cover_img String
+  intoroduction String
+  userId    Int
+  user      User      @relation(fields: [userId], references: [id])
+  @@unique([userId])
 }
 
 model Topic {
