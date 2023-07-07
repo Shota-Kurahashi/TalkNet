@@ -4,6 +4,7 @@ import Image from "next/image";
 import React, { FC, useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { uploadImage } from "src/features/profiles/utils/uploadImage";
 import { ProfileSchema, profileSchema } from "src/libs/schema/profile";
 
 type Props = {
@@ -19,25 +20,54 @@ export const ProfileForm: FC<Props> = ({ onValid, defaultValues }) => {
     register,
     handleSubmit,
     formState: { errors },
+    setValue,
     reset,
   } = useForm<ProfileSchema>({
     resolver: zodResolver(profileSchema),
     defaultValues,
   });
 
-  const onChangeBio = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const { createObjectURL } = window.URL || window.webkitURL;
+  const onChangeBio = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { createObjectURL } = window.URL || window.webkitURL;
 
-    if (!e.target.files?.[0]) return;
+      const file = e.target.files?.[0];
 
-    setPreviewBio(createObjectURL(e.target.files[0]));
-  }, []);
+      if (!file) return;
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
-    const { createObjectURL } = window.URL || window.webkitURL;
+      setPreviewBio(createObjectURL(file));
 
-    setPreviewFile(createObjectURL(acceptedFiles[0]));
-  }, []);
+      const { filename } = await uploadImage({
+        file,
+      });
+
+      setValue("bio", filename);
+    },
+    [setValue]
+  );
+
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      const { createObjectURL } = window.URL || window.webkitURL;
+
+      setPreviewFile(createObjectURL(acceptedFiles[0]));
+
+      const file = acceptedFiles[0];
+
+      const reader = new FileReader();
+
+      reader.readAsDataURL(file);
+
+      reader.onload = async () => {
+        const { filename, url } = await uploadImage({
+          file,
+        });
+
+        setValue("cover_img", `${url}/${filename}`);
+      };
+    },
+    [setValue]
+  );
 
   const { getRootProps, getInputProps } = useDropzone({
     onDrop,
@@ -64,7 +94,12 @@ export const ProfileForm: FC<Props> = ({ onValid, defaultValues }) => {
                 className="block text-sm font-medium leading-6 text-gray-900"
                 htmlFor="introduction"
               >
-                自己紹介
+                自己紹介{" "}
+                {errors.introduction && (
+                  <span className="mt-3 text-sm leading-6 text-red-600">
+                    {errors.introduction.message}
+                  </span>
+                )}
               </label>
               <div className="mt-2">
                 <textarea
@@ -77,11 +112,6 @@ export const ProfileForm: FC<Props> = ({ onValid, defaultValues }) => {
               <p className="mt-3 text-sm leading-6 text-gray-600">
                 あなたについての詳細を入力してください。
               </p>
-              {errors.introduction && (
-                <p className="mt-3 text-sm leading-6 text-red-600">
-                  {errors.introduction.message}
-                </p>
-              )}
             </div>
 
             <div className="col-span-full">
@@ -96,7 +126,7 @@ export const ProfileForm: FC<Props> = ({ onValid, defaultValues }) => {
                   <div className="h-12 w-12 overflow-hidden rounded-full">
                     <Image
                       alt="avatar"
-                      className="rounded-full object-cover group-hover:opacity-75"
+                      className="!relative rounded-full object-cover group-hover:opacity-75"
                       height={48}
                       src={previewBio}
                       width={48}
@@ -170,7 +200,7 @@ export const ProfileForm: FC<Props> = ({ onValid, defaultValues }) => {
                       <p className="pl-1">or drag and drop</p>
                     </div>
                     <p className="text-xs leading-5 text-gray-600">
-                      PNG, JPG up to 10MB
+                      PNG, JPG up to 1MB
                     </p>
                   </div>
                 )}
@@ -189,6 +219,7 @@ export const ProfileForm: FC<Props> = ({ onValid, defaultValues }) => {
           className="text-sm font-semibold leading-6 text-gray-900"
           onClick={() => {
             setPreviewFile(null);
+            setPreviewBio(null);
             reset();
           }}
           type="button"
