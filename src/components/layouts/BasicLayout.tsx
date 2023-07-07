@@ -29,7 +29,7 @@ export const BasicLayout = (page: ReactElement, { data }: PageProps) => {
 
   return (
     <LayoutProvider>
-      <div>
+      <div className="mx-auto min-h-screen max-w-7xl">
         <Aside setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen} />
         <div className="lg:pl-72">
           <Background />
@@ -46,7 +46,7 @@ export const BasicLayout = (page: ReactElement, { data }: PageProps) => {
 export const SimpleLayout = (page: ReactElement) => (
   <LayoutProvider>
     <Background />
-    <main className="py-10">
+    <main className="mx-auto min-h-screen max-w-7xl bg-white/30 py-10">
       <div className="px-4 sm:px-6 lg:px-8">{page}</div>
     </main>
   </LayoutProvider>

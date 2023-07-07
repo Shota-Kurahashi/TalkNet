@@ -110,7 +110,7 @@ export const Header: FC<Props> = ({ setSidebarOpen, data }) => {
                             active ? "bg-gray-50" : "",
                             "block w-full px-3 py-1 text-sm leading-6 text-gray-900"
                           )}
-                          href={`/profile/${data?.user?.id}`}
+                          href={`/profiles/${data?.user?.id}`}
                         >
                           {item.name}
                         </Link>

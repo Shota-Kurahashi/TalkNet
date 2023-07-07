@@ -7,7 +7,7 @@ export const Meta =
     (
       <>
         <Head>
-          <title>{pageTitle?.(pageProps) ?? "Nerd"}</title>
+          <title>{pageTitle?.(pageProps) ?? "TalkNet"}</title>
         </Head>
         {page}
       </>
