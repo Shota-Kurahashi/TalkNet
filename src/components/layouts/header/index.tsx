@@ -4,6 +4,7 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
 import { Bars3Icon, BellIcon } from "@heroicons/react/24/outline";
+import { Profile } from "@prisma/client";
 import clsx from "clsx";
 import Link from "next/link";
 import React, { Fragment, FC } from "react";
@@ -16,6 +17,7 @@ type Props = {
   setSidebarOpen: (open: boolean) => void;
   data: {
     user: User | null;
+    profile: Profile | null;
   } | null;
 };
 
@@ -23,6 +25,8 @@ const userNavigation = [
   { name: "Your profile", component: Link },
   { name: "Sign out", component: Button },
 ];
+
+const IMAGE_PATH = process.env.NEXT_PUBLIC_IMAGE_PATH as string;
 
 export const Header: FC<Props> = ({ setSidebarOpen, data }) => {
   const { onClickHandler } = useLogout();
@@ -77,7 +81,7 @@ export const Header: FC<Props> = ({ setSidebarOpen, data }) => {
           <Menu as="div" className="relative">
             <Menu.Button className="-m-1.5 flex items-center p-1.5">
               <span className="sr-only">Open user menu</span>
-              <Avatar />
+              <Avatar src={`${IMAGE_PATH}/${data?.profile?.bio}`} />
               <span className="hidden lg:flex lg:items-center">
                 <span
                   aria-hidden="true"
@@ -110,7 +114,11 @@ export const Header: FC<Props> = ({ setSidebarOpen, data }) => {
                             active ? "bg-gray-50" : "",
                             "block w-full px-3 py-1 text-sm leading-6 text-gray-900"
                           )}
-                          href={`/profiles/${data?.user?.id}?type=create`}
+                          href={
+                            data?.profile
+                              ? `/profiles/${data?.user?.id}/?type=edit`
+                              : `/profiles/${data?.user?.id}/?type=create`
+                          }
                         >
                           {item.name}
                         </Link>

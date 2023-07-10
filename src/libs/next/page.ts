@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
+import { Profile } from "@prisma/client";
 import { GetServerSidePropsContext, NextPage } from "next";
 import { AppProps } from "next/app";
 import { ReactElement, ReactNode } from "react";
@@ -23,6 +24,7 @@ type PageProps =
 type DefaultPageProps = {
   data: {
     user: null;
+    profile: null;
   };
   error: null;
 };
@@ -82,4 +84,14 @@ export const withSessionPage = <T>(nest: WithSessionNextFunction<T>) => {
       },
     };
   };
+};
+
+export type ProfilePageProps = {
+  user: User;
+  profile: Profile;
+};
+
+export type ProfilePage = {
+  data: ProfilePageProps;
+  error: null;
 };

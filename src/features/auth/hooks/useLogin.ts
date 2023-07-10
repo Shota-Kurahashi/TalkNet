@@ -7,11 +7,12 @@ export const useLogin = () => {
   const { loginMutation } = useMutateAuth();
   const onNotification = useNotificationState((state) => state.onShow);
   const router = useRouter();
+
   const onValid = async (data: LoginSchemaType) => {
     try {
-      await loginMutation.mutateAsync(data);
+      const result = await loginMutation.mutateAsync(data);
 
-      router.push("/");
+      router.push(result.redirectUrl);
     } catch (error) {
       onNotification({
         title: "ログインに失敗しました",

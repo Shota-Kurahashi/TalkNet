@@ -23,7 +23,7 @@ export const Avatar: FC<Props> = ({
         src={src}
         width={width}
       />
-      <span className="absolute bottom-0 right-0 block h-1.5 w-1.5 rounded-full bg-gray-300 ring-2 ring-white" />
+      <span className="absolute bottom-0 right-0 block h-1.5 w-1.5 rounded-full bg-green-500 ring-2 ring-white" />
     </span>
   ) : (
     <span className="inline-block h-8 w-8 overflow-hidden rounded-full bg-gray-100">

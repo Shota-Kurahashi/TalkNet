@@ -4,8 +4,10 @@ import Image from "next/image";
 import React, { FC, useCallback, useState } from "react";
 import { useDropzone } from "react-dropzone";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { uploadImage } from "src/features/profiles/utils/uploadImage";
+import { readFile } from "src/features/profiles/utils/uploadImage";
 import { ProfileSchema, profileSchema } from "src/libs/schema/profile";
+
+const IMAGE_PATH = process.env.NEXT_PUBLIC_IMAGE_PATH as string;
 
 type Props = {
   onValid: SubmitHandler<ProfileSchema>;
@@ -29,20 +31,19 @@ export const ProfileForm: FC<Props> = ({ onValid, defaultValues }) => {
 
   const onChangeBio = useCallback(
     async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { files } = e.target;
+
+      if (!files) return;
+
       const { createObjectURL } = window.URL || window.webkitURL;
 
-      const file = e.target.files?.[0];
+      setPreviewBio(createObjectURL(files[0]));
 
-      if (!file) return;
+      const file = files[0];
 
-      setPreviewBio(createObjectURL(file));
-
-      const { filename } = await uploadImage({
-        file,
-      });
-
-      setValue("bio", filename);
+      readFile((filename) => setValue("bio", filename), file);
     },
+
     [setValue]
   );
 
@@ -54,17 +55,7 @@ export const ProfileForm: FC<Props> = ({ onValid, defaultValues }) => {
 
       const file = acceptedFiles[0];
 
-      const reader = new FileReader();
-
-      reader.readAsDataURL(file);
-
-      reader.onload = async () => {
-        const { filename, url } = await uploadImage({
-          file,
-        });
-
-        setValue("cover_img", `${url}/${filename}`);
-      };
+      readFile((filename) => setValue("cover_img", filename), file);
     },
     [setValue]
   );
@@ -122,13 +113,13 @@ export const ProfileForm: FC<Props> = ({ onValid, defaultValues }) => {
                 アバター
               </label>
               <div className="mt-2 flex items-center gap-x-3 ">
-                {previewBio ? (
+                {previewBio || defaultValues?.bio ? (
                   <div className="h-12 w-12 overflow-hidden rounded-full">
                     <Image
                       alt="avatar"
                       className="!relative rounded-full object-cover group-hover:opacity-75"
                       height={48}
-                      src={previewBio}
+                      src={previewBio || `${IMAGE_PATH}/${defaultValues?.bio}`}
                       width={48}
                     />
                   </div>
@@ -169,13 +160,16 @@ export const ProfileForm: FC<Props> = ({ onValid, defaultValues }) => {
                 className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10"
                 {...getRootProps()}
               >
-                {previewFile ? (
+                {previewFile || defaultValues?.cover_img ? (
                   <div className="group h-56  flex-1 overflow-hidden rounded-lg">
                     <Image
                       alt="cover photo"
-                      className="!relative object-contain group-hover:opacity-75"
+                      className="!relative object-cover group-hover:opacity-75"
                       fill
-                      src={previewFile}
+                      src={
+                        previewFile ||
+                        `${IMAGE_PATH}/${defaultValues?.cover_img}`
+                      }
                     />
                   </div>
                 ) : (

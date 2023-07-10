@@ -17,3 +17,19 @@ export async function uploadImage({ file }: { file: File }) {
 
   return axios.post(url, formData).then(() => ({ url, filename, fields }));
 }
+
+export const readFile = async (
+  onValid: (filename: string) => void,
+  file: File
+) => {
+  const { filename } = await uploadImage({
+    file,
+  });
+  const reader = new FileReader();
+
+  reader.readAsDataURL(file);
+
+  reader.onload = async () => {
+    onValid(filename);
+  };
+};

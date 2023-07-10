@@ -86,18 +86,22 @@ export const handleApiError = ({
       message,
       status,
     });
+
+    return;
   }
 
   if (error instanceof HttpError) {
     const { status, message } = error.throwMessage();
     res.status(status).json({ message, status });
+
+    return;
   }
 
   const status = 500;
 
   const { message } = errors[status];
 
-  res.json({
+  res.status(status).json({
     message,
     status,
   });

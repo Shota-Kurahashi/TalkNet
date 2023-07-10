@@ -1,3 +1,4 @@
+import { Profile } from "@prisma/client";
 import Error from "next/error";
 import { ReactElement, useState } from "react";
 import { Background } from "src/components/elements/Background";
@@ -14,6 +15,7 @@ type PageProps =
   | {
       data: {
         user: User | null;
+        profile: Profile | null;
       };
 
       error: null;
@@ -29,7 +31,7 @@ export const BasicLayout = (page: ReactElement, { data }: PageProps) => {
 
   return (
     <LayoutProvider>
-      <div className="mx-auto min-h-screen max-w-7xl">
+      <div className="min-h-screen">
         <Aside setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen} />
         <div className="lg:pl-72">
           <Background />

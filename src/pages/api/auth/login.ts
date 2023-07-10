@@ -6,7 +6,8 @@ import { getSession } from "src/libs/session";
 import { validate } from "src/libs/validation";
 
 export type LoginResult = {
-  redirect: string;
+  message: string;
+  redirectUrl: string;
 };
 
 const postHandler: ApiHandler<LoginResult> = async (req, res) => {
@@ -19,7 +20,8 @@ const postHandler: ApiHandler<LoginResult> = async (req, res) => {
     session.user = user;
 
     res.status(200).json({
-      redirect: session.redirect || "/",
+      message: "ログインに成功しました",
+      redirectUrl: session.redirect ?? "/",
     });
   } catch (error) {
     handleApiError({ res, error });
