@@ -21,7 +21,13 @@ Page.getTitle = Meta(() => "プロフィール - TalkNet");
 export default Page;
 
 export const getServerSideProps: GetServerSideProps =
-  withSessionPage<ProfilePageProps>(async ({ user }) => {
+  withSessionPage<ProfilePageProps>(async ({ user, query }) => {
+    if (query.type === "create") {
+      return {
+        user,
+        profile: null,
+      };
+    }
     const profile = await getProfile(user?.id);
 
     return {

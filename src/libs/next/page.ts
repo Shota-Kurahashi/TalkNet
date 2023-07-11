@@ -88,7 +88,7 @@ export const withSessionPage = <T>(nest: WithSessionNextFunction<T>) => {
 
 export type ProfilePageProps = {
   user: User;
-  profile: Profile;
+  profile: Profile | null;
 };
 
 export type ProfilePage = {

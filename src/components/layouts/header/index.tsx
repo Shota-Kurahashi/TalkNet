@@ -116,7 +116,7 @@ export const Header: FC<Props> = ({ setSidebarOpen, data }) => {
                           )}
                           href={
                             data?.profile
-                              ? `/profiles/${data?.user?.id}/?type=edit`
+                              ? `/profiles/${data?.user?.id}`
                               : `/profiles/${data?.user?.id}/?type=create`
                           }
                         >

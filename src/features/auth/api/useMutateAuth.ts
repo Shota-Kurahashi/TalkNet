@@ -3,6 +3,7 @@ import { useMutation } from "@tanstack/react-query";
 import { LoginSchemaType, SignUpSchemaType } from "src/features/auth/types";
 import { axios } from "src/libs/client";
 import { LoginResult } from "src/pages/api/auth/login";
+import { SignUpResult } from "src/pages/api/auth/signup";
 
 const loginHandler = async (data: LoginSchemaType) => {
   const res = await axios.post<LoginResult>("/auth/login", data);
@@ -17,7 +18,7 @@ const signUpHandler = async (data: SignUpSchemaType) => {
     name: data.name,
   };
 
-  const res = await axios.post("/auth/signup", body);
+  const res = await axios.post<SignUpResult>("/auth/signup", body);
 
   return res.data;
 };

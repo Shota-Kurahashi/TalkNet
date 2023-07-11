@@ -9,14 +9,14 @@ export const useSignUp = () => {
   const router = useRouter();
   const onValid = async (data: SignUpSchemaType) => {
     try {
-      await signUpMutation.mutateAsync(data);
+      const { user_id } = await signUpMutation.mutateAsync(data);
 
       onNotification({
         title: "新規登録しました。",
         type: "success",
       });
 
-      router.push("/");
+      router.push(`/profiles/${user_id}?type=create`);
     } catch (error) {
       onNotification({
         title: "新規登録に失敗しました。",

@@ -1,29 +1,36 @@
 import Image from "next/image";
 import React, { FC } from "react";
+import { cn } from "src/utils/cn";
 
 type Props = {
   src?: string;
   alt?: string;
+  className?: string;
   width?: number;
   height?: number;
+  online?: boolean;
 };
 
 export const Avatar: FC<Props> = ({
   src,
   alt = "Avatar",
+  className,
   width = 32,
   height = 32,
+  online = true,
 }) => {
   return src ? (
     <span className="relative inline-block">
       <Image
         alt={alt}
-        className="h-6 w-6 rounded-full"
+        className={cn("h-8 w-8 rounded-full", className)}
         height={height}
         src={src}
         width={width}
       />
-      <span className="absolute bottom-0 right-0 block h-1.5 w-1.5 rounded-full bg-green-500 ring-2 ring-white" />
+      {online && (
+        <span className="absolute bottom-0 right-0 block h-1.5 w-1.5 rounded-full bg-green-500 ring-2 ring-white" />
+      )}
     </span>
   ) : (
     <span className="inline-block h-8 w-8 overflow-hidden rounded-full bg-gray-100">

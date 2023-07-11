@@ -18,6 +18,7 @@ model User {
   topics    Topic[]
   comments  Comment[]
   profile   Profile?
+  createdAt DateTime  @default(now())
 }
 
 model Profile {
@@ -38,6 +39,7 @@ model Topic {
   userId    Int
   user      User      @relation(fields: [userId], references: [id])
   comments  Comment[]
+  createdAt DateTime  @default(now())
 }
 
 
@@ -48,5 +50,6 @@ model Comment {
   user      User      @relation(fields: [userId], references: [id])
   topicId   Int
   topic     Topic     @relation(fields: [topicId], references: [id])
+  createdAt DateTime  @default(now())
 }
 

@@ -7,6 +7,7 @@ import { validate } from "src/libs/validation";
 
 export type SignUpResult = {
   redirect: string;
+  user_id: number;
 };
 
 const validateSchema = z.object({
@@ -22,9 +23,11 @@ const postHandler: ApiHandler<SignUpResult> = async (req, res) => {
   const session = await getSession(req, res);
 
   session.user = user;
+  session.redirect = `/profiles/${user.id}?type=create`;
 
   res.status(200).json({
     redirect: session.redirect || "/",
+    user_id: user.id,
   });
 };
 
