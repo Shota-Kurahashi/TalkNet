@@ -10,9 +10,9 @@ export const useLogin = () => {
 
   const onValid = async (data: LoginSchemaType) => {
     try {
-      const result = await loginMutation.mutateAsync(data);
+      await loginMutation.mutateAsync(data);
 
-      router.push(result.redirectUrl);
+      router.push("/");
     } catch (error) {
       onNotification({
         title: "ログインに失敗しました",

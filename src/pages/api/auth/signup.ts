@@ -23,10 +23,9 @@ const postHandler: ApiHandler<SignUpResult> = async (req, res) => {
   const session = await getSession(req, res);
 
   session.user = user;
-  session.redirect = `/profiles/${user.id}?type=create`;
 
   res.status(200).json({
-    redirect: session.redirect || "/",
+    redirect: `profiles/${user.id}?type=create`,
     user_id: user.id,
   });
 };

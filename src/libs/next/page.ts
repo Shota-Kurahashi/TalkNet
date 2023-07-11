@@ -49,6 +49,7 @@ type WithSessionNextFunction<T> = (
 export const withSessionPage = <T>(nest: WithSessionNextFunction<T>) => {
   return async (ctx: GetServerSidePropsContext) => {
     const session = await getSession(ctx.req, ctx.res);
+
     try {
       assertUser(session.user);
     } catch (error: unknown) {

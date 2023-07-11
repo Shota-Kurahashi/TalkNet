@@ -14,11 +14,12 @@ export const loginHandler = async ({ email, password }: LoginSchemaType) => {
 
   if (!bcrypt.compareSync(password, user.password)) throw new BadRequestError();
 
-  const { id, name, email: userEmail } = user;
+  const { id, name, email: userEmail, createdAt } = user;
 
   return {
     id,
     name,
     email: userEmail,
+    createdAt,
   };
 };
