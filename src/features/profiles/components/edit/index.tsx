@@ -8,11 +8,7 @@ export const EditProfile = ({ profile }: ProfilePageProps) => {
 
   return (
     <ProfileForm
-      defaultValues={{
-        bio: profile.bio,
-        cover_img: profile.cover_img,
-        introduction: profile.introduction,
-      }}
+      defaultValues={profile ? { ...profile } : undefined}
       onValid={onValid}
       type="edit"
     />
