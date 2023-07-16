@@ -1,14 +1,6 @@
 import { Listbox, Transition } from "@headlessui/react";
-import {
-  FaceFrownIcon,
-  FaceSmileIcon as FaceSmileIconMini,
-  FireIcon,
-  HandThumbUpIcon,
-  HeartIcon,
-  XMarkIcon,
-} from "@heroicons/react/20/solid";
+
 import { FaceSmileIcon, PhotoIcon } from "@heroicons/react/24/outline";
-import { HandThumbDownIcon } from "@heroicons/react/24/solid";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mood } from "@prisma/client";
 import clsx from "clsx";
@@ -19,73 +11,7 @@ import { Button } from "src/components/elements/Button";
 import { Input } from "src/components/elements/Input";
 import { readFile } from "src/features/profiles/utils/uploadImage";
 import { TopicSchemaType, topicSchema } from "src/libs/schema/topic";
-
-type GenMood = {
-  icon: React.ForwardRefExoticComponent<
-    Omit<React.SVGProps<SVGSVGElement>, "ref"> & {
-      title?: string | undefined;
-      titleId?: string | undefined;
-    } & React.RefAttributes<SVGSVGElement>
-  >;
-  iconColor: string;
-  bgColor: string;
-  id: number;
-};
-
-const genMood = (id: number): GenMood => {
-  switch (id) {
-    case 1:
-      return {
-        id: 1,
-        icon: FireIcon,
-        iconColor: "text-white",
-        bgColor: "bg-red-500",
-      };
-    case 2:
-      return {
-        id: 2,
-        icon: HeartIcon,
-        iconColor: "text-white",
-        bgColor: "bg-pink-400",
-      };
-    case 3:
-      return {
-        id: 3,
-        icon: FaceSmileIconMini,
-        iconColor: "text-white",
-        bgColor: "bg-green-400",
-      };
-    case 4:
-      return {
-        id: 4,
-        icon: FaceFrownIcon,
-        iconColor: "text-white",
-        bgColor: "bg-yellow-400",
-      };
-    case 5:
-      return {
-        id: 5,
-        icon: HandThumbUpIcon,
-        iconColor: "text-white",
-        bgColor: "bg-blue-500",
-      };
-
-    case 6:
-      return {
-        id: 6,
-        icon: HandThumbDownIcon,
-        iconColor: "text-white",
-        bgColor: "bg-indigo-500",
-      };
-    default:
-      return {
-        id: 7,
-        icon: XMarkIcon,
-        iconColor: "text-white",
-        bgColor: "bg-gray-800",
-      };
-  }
-};
+import { GenMood, genMood, parseJpMood } from "src/utils/mood";
 
 type Props = {
   moods: Pick<Mood, "id" | "name">[];
@@ -250,7 +176,7 @@ export const TopicForm: FC<Props> = ({ moods, onValid, isLoading }) => {
                                   />
                                 </div>
                                 <span className="ml-3 block truncate font-medium">
-                                  {mood.name}
+                                  {parseJpMood(mood.name)}
                                 </span>
                               </div>
                             </Listbox.Option>

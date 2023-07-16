@@ -1,13 +1,5 @@
-import {
-  FaceFrownIcon,
-  FaceSmileIcon as FaceSmileIconMini,
-  FireIcon,
-  HandThumbUpIcon,
-  HeartIcon,
-  XMarkIcon,
-} from "@heroicons/react/20/solid";
 import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
-import { HandThumbDownIcon } from "@heroicons/react/24/solid";
+
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,73 +7,7 @@ import { FC } from "react";
 import { useQueryTopics } from "src/features/topics/api/useQueryTopics";
 import { TopPageProps } from "src/libs/next/page";
 import { formatTimeDistance } from "src/utils/formatDistance";
-
-type GenMood = {
-  icon: React.ForwardRefExoticComponent<
-    Omit<React.SVGProps<SVGSVGElement>, "ref"> & {
-      title?: string | undefined;
-      titleId?: string | undefined;
-    } & React.RefAttributes<SVGSVGElement>
-  >;
-  iconColor: string;
-  bgColor: string;
-  id: number;
-};
-
-const genMood = (id: number): GenMood => {
-  switch (id) {
-    case 1:
-      return {
-        id: 1,
-        icon: FireIcon,
-        iconColor: "text-white",
-        bgColor: "bg-red-500",
-      };
-    case 2:
-      return {
-        id: 2,
-        icon: HeartIcon,
-        iconColor: "text-white",
-        bgColor: "bg-pink-400",
-      };
-    case 3:
-      return {
-        id: 3,
-        icon: FaceSmileIconMini,
-        iconColor: "text-white",
-        bgColor: "bg-green-400",
-      };
-    case 4:
-      return {
-        id: 4,
-        icon: FaceFrownIcon,
-        iconColor: "text-white",
-        bgColor: "bg-yellow-400",
-      };
-    case 5:
-      return {
-        id: 5,
-        icon: HandThumbUpIcon,
-        iconColor: "text-white",
-        bgColor: "bg-blue-500",
-      };
-
-    case 6:
-      return {
-        id: 6,
-        icon: HandThumbDownIcon,
-        iconColor: "text-white",
-        bgColor: "bg-indigo-500",
-      };
-    default:
-      return {
-        id: 7,
-        icon: XMarkIcon,
-        iconColor: "text-white",
-        bgColor: "bg-gray-800",
-      };
-  }
-};
+import { genMood } from "src/utils/mood";
 
 type Props = {
   topics: TopPageProps["topics"];
