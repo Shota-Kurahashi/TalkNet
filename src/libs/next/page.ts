@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { Profile, Topic, User } from "@prisma/client";
+import { Mood, Profile, Topic, User } from "@prisma/client";
 import { GetServerSidePropsContext, NextPage } from "next";
 import { AppProps } from "next/app";
 import { ReactElement, ReactNode } from "react";
@@ -75,6 +75,7 @@ export type ProfilePage = {
 
 export type TopPageProps = {
   topics: Topic[];
+  moods: Mood[];
 };
 
 export type TopPage = {

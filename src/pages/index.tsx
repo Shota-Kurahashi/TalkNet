@@ -1,5 +1,6 @@
 import { BasicLayout } from "src/components/layouts/BasicLayout";
 import { Top } from "src/features/pages/top";
+import { getMoods } from "src/handlers/moods";
 import { getProfile } from "src/handlers/profiles/get";
 import { getTopics } from "src/handlers/topics/get";
 import { Meta } from "src/libs/meta";
@@ -22,11 +23,13 @@ export const getServerSideProps = withSessionPage<TopPageProps>(
   async ({ user }) => {
     const profile = await getProfile(user?.id);
     const topics = await getTopics();
+    const moods = await getMoods();
 
     return {
       user,
       profile,
       topics,
+      moods,
     };
   }
 );

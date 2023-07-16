@@ -7,73 +7,127 @@ import {
   HeartIcon,
   XMarkIcon,
 } from "@heroicons/react/20/solid";
-import {
-  FaceSmileIcon as FaceSmileIconOutline,
-  PaperClipIcon,
-} from "@heroicons/react/24/outline";
+import { FaceSmileIcon, PaperClipIcon } from "@heroicons/react/24/outline";
+import { HandThumbDownIcon } from "@heroicons/react/24/solid";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Mood } from "@prisma/client";
 import clsx from "clsx";
-import React, { Fragment, useState } from "react";
+import React, { FC, Fragment, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { Input } from "src/components/elements/Input";
+import { TopicSchemaType, topicSchema } from "src/libs/schema/topic";
 
-const moods = [
-  {
-    name: "Excited",
-    value: "excited",
-    icon: FireIcon,
-    iconColor: "text-white",
-    bgColor: "bg-red-500",
-  },
-  {
-    name: "Loved",
-    value: "loved",
-    icon: HeartIcon,
-    iconColor: "text-white",
-    bgColor: "bg-pink-400",
-  },
-  {
-    name: "Happy",
-    value: "happy",
-    icon: FaceSmileIconMini,
-    iconColor: "text-white",
-    bgColor: "bg-green-400",
-  },
-  {
-    name: "Sad",
-    value: "sad",
-    icon: FaceFrownIcon,
-    iconColor: "text-white",
-    bgColor: "bg-yellow-400",
-  },
-  {
-    name: "Thumbsy",
-    value: "thumbsy",
-    icon: HandThumbUpIcon,
-    iconColor: "text-white",
-    bgColor: "bg-blue-500",
-  },
-  {
-    name: "I feel nothing",
-    value: null,
-    icon: XMarkIcon,
-    iconColor: "text-gray-400",
-    bgColor: "bg-transparent",
-  },
-];
+type GenMood = {
+  icon: React.ForwardRefExoticComponent<
+    Omit<React.SVGProps<SVGSVGElement>, "ref"> & {
+      title?: string | undefined;
+      titleId?: string | undefined;
+    } & React.RefAttributes<SVGSVGElement>
+  >;
+  iconColor: string;
+  bgColor: string;
+  id: number;
+};
 
-export const TopicForm = () => {
-  const [selected, setSelected] = useState(moods[5]);
+const genMood = (id: number): GenMood => {
+  switch (id) {
+    case 1:
+      return {
+        id: 1,
+        icon: FireIcon,
+        iconColor: "text-white",
+        bgColor: "bg-red-500",
+      };
+    case 2:
+      return {
+        id: 2,
+        icon: HeartIcon,
+        iconColor: "text-white",
+        bgColor: "bg-pink-400",
+      };
+    case 3:
+      return {
+        id: 3,
+        icon: FaceSmileIconMini,
+        iconColor: "text-white",
+        bgColor: "bg-green-400",
+      };
+    case 4:
+      return {
+        id: 4,
+        icon: FaceFrownIcon,
+        iconColor: "text-white",
+        bgColor: "bg-yellow-400",
+      };
+    case 5:
+      return {
+        id: 5,
+        icon: HandThumbUpIcon,
+        iconColor: "text-white",
+        bgColor: "bg-blue-500",
+      };
+
+    case 6:
+      return {
+        id: 6,
+        icon: HandThumbDownIcon,
+        iconColor: "text-white",
+        bgColor: "bg-indigo-500",
+      };
+    default:
+      return {
+        id: 7,
+        icon: XMarkIcon,
+        iconColor: "text-white",
+        bgColor: "bg-gray-800",
+      };
+  }
+};
+
+const defaultValues: TopicSchemaType = {
+  content: "",
+  moodId: 7,
+  title: "",
+  image: null,
+};
+
+type Props = {
+  moods: Pick<Mood, "id" | "name">[];
+  onValid: SubmitHandler<TopicSchemaType>;
+};
+
+export const TopicForm: FC<Props> = ({ moods, onValid }) => {
+  const [selected, setSelected] = useState<GenMood | null>(null);
+  const {
+    formState: { errors },
+    handleSubmit,
+    register,
+    setValue,
+  } = useForm<TopicSchemaType>({
+    resolver: zodResolver(topicSchema),
+    defaultValues,
+  });
 
   return (
-    <form>
+    <form onSubmit={handleSubmit(onValid)}>
+      <div className="mb-8">
+        <Input
+          placeholder="タイトルを入力..."
+          sr="トピックのタイトル作成"
+          type="text"
+          {...register("title")}
+        />
+      </div>
       <div className="border-b border-gray-200 focus-within:border-indigo-600">
         <label className="sr-only" htmlFor="topic">
           トピックを作成
         </label>
         <textarea
           className="block w-full resize-none border-0 border-b border-transparent bg-transparent p-0 pb-2 text-gray-900 placeholder:text-gray-400 focus:border-indigo-600 focus:ring-0 sm:text-sm sm:leading-6"
-          defaultValue=""
           id="topic"
           placeholder="話題を投稿..."
           rows={3}
+          {...register("content")}
         />
       </div>
       <div className="flex justify-between pt-2">
@@ -88,16 +142,24 @@ export const TopicForm = () => {
             </button>
           </div>
           <div className="flow-root">
-            <Listbox onChange={setSelected} value={selected}>
+            <Listbox
+              onChange={(mood) => {
+                if (mood === null) return;
+
+                setValue("moodId", mood.id);
+                setSelected(genMood(mood.id));
+              }}
+              value={selected}
+            >
               {({ open }) => (
                 <>
                   <Listbox.Label className="sr-only">Your mood</Listbox.Label>
                   <div className="relative">
                     <Listbox.Button className="relative -m-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500">
                       <span className="flex items-center justify-center">
-                        {selected.value === null ? (
+                        {selected === null ? (
                           <span>
-                            <FaceSmileIconOutline
+                            <FaceSmileIcon
                               aria-hidden="true"
                               className="h-6 w-6 shrink-0"
                             />
@@ -116,7 +178,6 @@ export const TopicForm = () => {
                                 className="h-5 w-5 shrink-0 text-white"
                               />
                             </span>
-                            <span className="sr-only">{selected.name}</span>
                           </span>
                         )}
                       </span>
@@ -130,38 +191,42 @@ export const TopicForm = () => {
                       show={open}
                     >
                       <Listbox.Options className="absolute z-10 -ml-6 w-60 rounded-lg bg-white py-3 text-base shadow ring-1 ring-black/5 focus:outline-none sm:ml-auto sm:w-64 sm:text-sm">
-                        {moods.map((mood) => (
-                          <Listbox.Option
-                            key={mood.value}
-                            className={({ active }) =>
-                              clsx(
-                                active ? "bg-gray-100" : "bg-white",
-                                "relative cursor-default select-none px-3 py-2"
-                              )
-                            }
-                            value={mood}
-                          >
-                            <div className="flex items-center">
-                              <div
-                                className={clsx(
-                                  mood.bgColor,
-                                  "flex h-8 w-8 items-center justify-center rounded-full"
-                                )}
-                              >
-                                <mood.icon
-                                  aria-hidden="true"
+                        {moods.map((mood) => {
+                          const Icon = genMood(mood.id).icon;
+
+                          return (
+                            <Listbox.Option
+                              key={mood.id}
+                              className={({ active }) =>
+                                clsx(
+                                  active ? "bg-gray-100" : "bg-white",
+                                  "relative cursor-default select-none px-3 py-2"
+                                )
+                              }
+                              value={mood}
+                            >
+                              <div className="flex items-center">
+                                <div
                                   className={clsx(
-                                    mood.iconColor,
-                                    "h-5 w-5 shrink-0"
+                                    genMood(mood.id).bgColor,
+                                    "flex h-8 w-8 items-center justify-center rounded-full"
                                   )}
-                                />
+                                >
+                                  <Icon
+                                    aria-hidden="true"
+                                    className={clsx(
+                                      genMood(mood.id).iconColor,
+                                      "h-5 w-5 shrink-0"
+                                    )}
+                                  />
+                                </div>
+                                <span className="ml-3 block truncate font-medium">
+                                  {mood.name}
+                                </span>
                               </div>
-                              <span className="ml-3 block truncate font-medium">
-                                {mood.name}
-                              </span>
-                            </div>
-                          </Listbox.Option>
-                        ))}
+                            </Listbox.Option>
+                          );
+                        })}
                       </Listbox.Options>
                     </Transition>
                   </div>
@@ -179,6 +244,21 @@ export const TopicForm = () => {
           </button>
         </div>
       </div>
+      {errors.content && (
+        <span className="mt-3 text-sm leading-6 text-red-600">
+          {errors.content.message}
+        </span>
+      )}
+      {errors.title && (
+        <span className="mt-3 text-sm leading-6 text-red-600">
+          {errors.title.message}
+        </span>
+      )}
+      {errors.moodId && (
+        <span className="mt-3 text-sm leading-6 text-red-600">
+          {errors.moodId.message}
+        </span>
+      )}
     </form>
   );
 };

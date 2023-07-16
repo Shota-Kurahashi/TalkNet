@@ -4,7 +4,7 @@ import { TopicSchemaType } from "src/libs/schema/topic";
 
 export const createTopic = async (
   userId: number,
-  { content, title, image }: TopicSchemaType
+  { content, title, image, moodId }: TopicSchemaType
 ) => {
   try {
     const topic = await prisma.topic.create({
@@ -13,6 +13,7 @@ export const createTopic = async (
         title,
         image,
         userId,
+        moodId,
       },
     });
 
