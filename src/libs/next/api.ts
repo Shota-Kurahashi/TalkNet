@@ -1,6 +1,6 @@
+import { User } from "@prisma/client";
 import { NextApiHandler, NextApiRequest, NextApiResponse } from "next";
 import { Error, handleApiError } from "src/libs/error";
-import { User } from "src/libs/schema/user";
 import { getSession } from "src/libs/session";
 import { assertUser } from "src/libs/validation";
 
