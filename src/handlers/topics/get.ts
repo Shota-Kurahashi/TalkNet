@@ -1,24 +1,27 @@
 /* eslint-disable consistent-return */
 import { Prisma } from "@prisma/client";
 import { prisma, prismaErrorHandler } from "src/libs/prisma";
+import { Topic } from "src/libs/schema/topic";
 
 const topicIncludeOption: Prisma.TopicInclude = {
   user: {
-    select: {
-      name: true,
-      id: true,
-      profile: {
-        select: {
-          bio: true,
+    include: {
+      profile: true,
+    },
+  },
+  comments: {
+    include: {
+      user: {
+        include: {
+          profile: true,
         },
       },
     },
   },
-  comments: true,
 };
 
 // eslint-disable-next-line consistent-return
-export const getTopics = async () => {
+export const getTopics = async (): Promise<Topic[]> => {
   try {
     const topics = await prisma.topic.findMany({
       orderBy: {

@@ -1,4 +1,4 @@
-import { Topic } from "@prisma/client";
+import { Comment, Topic as PTopic, Profile, User } from "@prisma/client";
 import { z } from "zod";
 
 export const topicSchema = z.object({
@@ -19,6 +19,18 @@ export const topicSchema = z.object({
 });
 
 export type TopicSchemaType = z.infer<typeof topicSchema>;
+
+export type Topic =
+  | PTopic & {
+      user?: Pick<User, "id" | "name"> & {
+        profile?: Pick<Profile, "bio">;
+      };
+      comments?: (Comment & {
+        user?: Pick<User, "id" | "name"> & {
+          profile?: Pick<Profile, "bio">;
+        };
+      })[];
+    };
 
 export type TopicsReturn = {
   topics: Topic[];
