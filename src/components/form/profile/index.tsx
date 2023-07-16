@@ -6,8 +6,7 @@ import { useDropzone } from "react-dropzone";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { readFile } from "src/features/profiles/utils/uploadImage";
 import { ProfileSchema, profileSchema } from "src/libs/schema/profile";
-
-const IMAGE_PATH = process.env.NEXT_PUBLIC_IMAGE_PATH as string;
+import { getImagePath } from "src/utils/getImagePath";
 
 type Props = {
   onValid: SubmitHandler<ProfileSchema>;
@@ -119,7 +118,9 @@ export const ProfileForm: FC<Props> = ({ onValid, defaultValues }) => {
                       alt="avatar"
                       className="!relative rounded-full object-cover group-hover:opacity-75"
                       height={48}
-                      src={previewBio || `${IMAGE_PATH}/${defaultValues?.bio}`}
+                      src={
+                        previewBio || `${getImagePath()}/${defaultValues?.bio}`
+                      }
                       width={48}
                     />
                   </div>
@@ -168,7 +169,7 @@ export const ProfileForm: FC<Props> = ({ onValid, defaultValues }) => {
                       fill
                       src={
                         previewFile ||
-                        `${IMAGE_PATH}/${defaultValues?.cover_img}`
+                        `${getImagePath()}/${defaultValues?.cover_img}`
                       }
                     />
                   </div>

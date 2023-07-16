@@ -3,8 +3,7 @@ import Image from "next/image";
 import React, { FC } from "react";
 import { TopicForm } from "src/components/form/topic";
 import { useCreateTopic } from "src/features/topics/hooks/useCreateTopic";
-
-const IMAGE_PATH = process.env.NEXT_PUBLIC_IMAGE_PATH as string;
+import { getImagePath } from "src/utils/getImagePath";
 
 type Props = {
   profile: Profile | null;
@@ -21,7 +20,7 @@ export const CreateTopic: FC<Props> = ({ profile, moods }) => {
           alt=""
           className="inline-block h-10 w-10 rounded-full"
           height={40}
-          src={`${IMAGE_PATH}/${profile?.bio}`}
+          src={`${getImagePath()}/${profile?.bio}`}
           width={40}
         />
       </div>

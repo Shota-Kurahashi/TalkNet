@@ -3,7 +3,12 @@ import { Mood, Profile, User } from "@prisma/client";
 import { GetServerSidePropsContext, NextPage } from "next";
 import { AppProps } from "next/app";
 import { ReactElement, ReactNode } from "react";
-import { Error, HttpError, UnauthorizedError } from "src/libs/error";
+import {
+  Error,
+  HttpError,
+  NotFoundError,
+  UnauthorizedError,
+} from "src/libs/error";
 import { Topic } from "src/libs/schema/topic";
 
 import { getSession } from "src/libs/session";
@@ -50,6 +55,12 @@ export const withSessionPage = <T>(nest: WithSessionNextFunction<T>) => {
         };
       }
 
+      if (error instanceof NotFoundError) {
+        return {
+          notFound: true,
+        };
+      }
+
       throw error;
     }
 
@@ -81,5 +92,14 @@ export type TopPageProps = {
 
 export type TopPage = {
   data: TopPageProps & ProfilePageProps;
+  error: null | Error;
+};
+
+export type TopicPageProps = {
+  topic: Topic | null;
+};
+
+export type TopicPage = {
+  data: TopicPageProps & ProfilePageProps;
   error: null | Error;
 };

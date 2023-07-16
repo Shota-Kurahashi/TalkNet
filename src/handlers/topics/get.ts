@@ -1,5 +1,6 @@
 /* eslint-disable consistent-return */
 import { Prisma } from "@prisma/client";
+import { NotFoundError } from "src/libs/error";
 import { prisma, prismaErrorHandler } from "src/libs/prisma";
 import { Topic } from "src/libs/schema/topic";
 
@@ -36,7 +37,7 @@ export const getTopics = async (): Promise<Topic[]> => {
   }
 };
 
-export const getTopic = async (id: number) => {
+export const getTopic = async (id: number): Promise<Topic> => {
   try {
     const topic = await prisma.topic.findUnique({
       where: {
@@ -44,6 +45,8 @@ export const getTopic = async (id: number) => {
       },
       include: topicIncludeOption,
     });
+
+    if (!topic) throw new NotFoundError();
 
     return topic;
   } catch (error) {
