@@ -1,4 +1,3 @@
-import { GetServerSideProps } from "next";
 import React from "react";
 import { SimpleLayout } from "src/components/layouts/BasicLayout";
 import { Profile } from "src/features/profiles/components";
@@ -20,8 +19,8 @@ Page.getTitle = Meta(() => "プロフィール - TalkNet");
 
 export default Page;
 
-export const getServerSideProps: GetServerSideProps =
-  withSessionPage<ProfilePageProps>(async ({ user, query }) => {
+export const getServerSideProps = withSessionPage<ProfilePageProps>(
+  async ({ user, query }) => {
     if (query.type === "create") {
       return {
         user,
@@ -35,4 +34,5 @@ export const getServerSideProps: GetServerSideProps =
       user,
       profile,
     };
-  });
+  }
+);
