@@ -4,7 +4,7 @@ import { useMutateTopic } from "src/features/topics/api/useMutateTopic";
 import { TopicSchemaType } from "src/libs/schema/topic";
 
 export const useCreateTopic = () => {
-  const { mutateAsync } = useMutateTopic();
+  const { mutateAsync, isLoading } = useMutateTopic();
   const onNotification = useNotificationState((state) => state.onShow);
 
   const onValid: SubmitHandler<TopicSchemaType> = async (data) => {
@@ -24,5 +24,6 @@ export const useCreateTopic = () => {
 
   return {
     onValid,
+    isLoading,
   };
 };

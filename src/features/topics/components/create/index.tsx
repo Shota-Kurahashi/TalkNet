@@ -8,11 +8,11 @@ const IMAGE_PATH = process.env.NEXT_PUBLIC_IMAGE_PATH as string;
 
 type Props = {
   profile: Profile | null;
-  moods: Pick<Mood, "id" | "name">[];
+  moods: Mood[];
 };
 
 export const CreateTopic: FC<Props> = ({ profile, moods }) => {
-  const { onValid } = useCreateTopic();
+  const { onValid, isLoading } = useCreateTopic();
 
   return (
     <div className="flex items-start space-x-4 rounded-xl bg-white/50 p-2">
@@ -26,7 +26,7 @@ export const CreateTopic: FC<Props> = ({ profile, moods }) => {
         />
       </div>
       <div className="min-w-0 flex-1">
-        <TopicForm moods={moods} onValid={onValid} />
+        <TopicForm isLoading={isLoading} moods={moods} onValid={onValid} />
       </div>
     </div>
   );

@@ -7,14 +7,17 @@ import {
   HeartIcon,
   XMarkIcon,
 } from "@heroicons/react/20/solid";
-import { FaceSmileIcon, PaperClipIcon } from "@heroicons/react/24/outline";
+import { FaceSmileIcon, PhotoIcon } from "@heroicons/react/24/outline";
 import { HandThumbDownIcon } from "@heroicons/react/24/solid";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Mood } from "@prisma/client";
 import clsx from "clsx";
-import React, { FC, Fragment, useState } from "react";
+import Image from "next/image";
+import React, { FC, Fragment, useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { Button } from "src/components/elements/Button";
 import { Input } from "src/components/elements/Input";
+import { readFile } from "src/features/profiles/utils/uploadImage";
 import { TopicSchemaType, topicSchema } from "src/libs/schema/topic";
 
 type GenMood = {
@@ -84,32 +87,52 @@ const genMood = (id: number): GenMood => {
   }
 };
 
-const defaultValues: TopicSchemaType = {
-  content: "",
-  moodId: 7,
-  title: "",
-  image: null,
-};
-
 type Props = {
   moods: Pick<Mood, "id" | "name">[];
   onValid: SubmitHandler<TopicSchemaType>;
+  isLoading: boolean;
 };
 
-export const TopicForm: FC<Props> = ({ moods, onValid }) => {
+export const TopicForm: FC<Props> = ({ moods, onValid, isLoading }) => {
   const [selected, setSelected] = useState<GenMood | null>(null);
+  const [previewImage, setPreviewImage] = useState<string | null>(null);
   const {
     formState: { errors },
     handleSubmit,
     register,
     setValue,
+    reset,
   } = useForm<TopicSchemaType>({
     resolver: zodResolver(topicSchema),
-    defaultValues,
   });
 
+  const onChangeImage = useCallback(
+    async (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { files } = e.target;
+
+      if (!files) return;
+
+      const { createObjectURL } = window.URL || window.webkitURL;
+
+      setPreviewImage(createObjectURL(files[0]));
+
+      const file = files[0];
+
+      readFile((filename) => setValue("image", filename), file);
+    },
+
+    [setValue]
+  );
+
   return (
-    <form onSubmit={handleSubmit(onValid)}>
+    <form
+      onSubmit={handleSubmit((data) => {
+        onValid(data);
+        reset();
+        setPreviewImage(null);
+        setSelected(null);
+      })}
+    >
       <div className="mb-8">
         <Input
           placeholder="タイトルを入力..."
@@ -119,6 +142,15 @@ export const TopicForm: FC<Props> = ({ moods, onValid }) => {
         />
       </div>
       <div className="border-b border-gray-200 focus-within:border-indigo-600">
+        {previewImage && (
+          <Image
+            alt="プレビュー画像"
+            className="!relative mb-8 h-10 max-h-96 w-full object-scale-down"
+            fill
+            src={previewImage}
+          />
+        )}
+
         <label className="sr-only" htmlFor="topic">
           トピックを作成
         </label>
@@ -133,13 +165,11 @@ export const TopicForm: FC<Props> = ({ moods, onValid }) => {
       <div className="flex justify-between pt-2">
         <div className="flex items-center space-x-5">
           <div className="flow-root">
-            <button
-              className="-m-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500"
-              type="button"
-            >
-              <PaperClipIcon aria-hidden="true" className="h-6 w-6" />
+            <label className="-m-2 inline-flex h-10 w-10 items-center justify-center rounded-full text-gray-400 hover:text-gray-500">
+              <PhotoIcon aria-hidden="true" className="h-6 w-6" />
+              <input className="sr-only" onChange={onChangeImage} type="file" />
               <span className="sr-only">Attach a file</span>
-            </button>
+            </label>
           </div>
           <div className="flow-root">
             <Listbox
@@ -163,7 +193,7 @@ export const TopicForm: FC<Props> = ({ moods, onValid }) => {
                               aria-hidden="true"
                               className="h-6 w-6 shrink-0"
                             />
-                            <span className="sr-only">Add your mood</span>
+                            <span className="sr-only">気分を選択</span>
                           </span>
                         ) : (
                           <span>
@@ -182,7 +212,6 @@ export const TopicForm: FC<Props> = ({ moods, onValid }) => {
                         )}
                       </span>
                     </Listbox.Button>
-
                     <Transition
                       as={Fragment}
                       leave="transition ease-in duration-100"
@@ -236,12 +265,9 @@ export const TopicForm: FC<Props> = ({ moods, onValid }) => {
           </div>
         </div>
         <div className="shrink-0">
-          <button
-            className="inline-flex items-center rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-            type="submit"
-          >
+          <Button loading={isLoading} type="submit">
             投稿
-          </button>
+          </Button>
         </div>
       </div>
       {errors.content && (
