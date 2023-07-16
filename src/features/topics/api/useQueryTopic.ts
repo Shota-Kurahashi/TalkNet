@@ -17,7 +17,12 @@ type Props = {
 
 export const useQueryTopic = ({ topic, id }: Props) => {
   return useQuery({
-    queryKey: ["topic", id],
+    queryKey: [
+      "topics",
+      {
+        id,
+      },
+    ],
     queryFn: () => getTopic(id),
     initialData: {
       topic,

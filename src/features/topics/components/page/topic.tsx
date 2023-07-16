@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
+import { Comments } from "src/features/comments/components/comments";
 import { CreateComment } from "src/features/comments/components/create";
 import { useQueryTopic } from "src/features/topics/api/useQueryTopic";
 import { Topic as CTopic } from "src/features/topics/components/topic";
@@ -17,8 +18,14 @@ export const Topic = ({ data }: TopicPage) => {
 
   return (
     <div className="flex flex-col gap-y-10">
-      <CTopic topic={result.topic} />
+      <CTopic isSlug topic={result.topic} />
       <CreateComment topicId={Number(router.query.id)} />
+      {result.topic.comments?.length && (
+        <Comments
+          comments={result.topic.comments}
+          id={Number(router.query.id)}
+        />
+      )}
     </div>
   );
 };

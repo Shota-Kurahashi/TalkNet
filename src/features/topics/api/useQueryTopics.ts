@@ -12,6 +12,8 @@ export const useQueryTopics = (topics: Topic[]) => {
   return useQuery({
     queryKey: ["topics"],
     queryFn: getTopics,
+    staleTime: 0,
+    cacheTime: 0,
     initialData: {
       topics,
     },

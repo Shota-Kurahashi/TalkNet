@@ -4,7 +4,7 @@ import { useMutateComment } from "src/features/comments/api/useMutateComment";
 import { CommentInputSchemaType } from "src/libs/schema/comment";
 
 export const useCreateComments = (topicId: number) => {
-  const { mutateAsync, isLoading } = useMutateComment();
+  const { mutateAsync, isLoading } = useMutateComment(topicId);
   const onNotification = useNotificationState((state) => state.onShow);
 
   const onValid: SubmitHandler<CommentInputSchemaType> = async (data) => {

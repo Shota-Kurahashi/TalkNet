@@ -15,11 +15,11 @@ const getHandler = withSession<CommentsReturn>(async (req, res) => {
     validate(
       req.query,
       z.object({
-        topicId: z.number(),
+        id: z.number(),
       })
     );
 
-    const comments = await getComments(req.query.topicId);
+    const comments = await getComments(req.query.id);
     res.status(200).json({
       comments,
     });

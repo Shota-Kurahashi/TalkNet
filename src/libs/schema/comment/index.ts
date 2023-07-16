@@ -1,4 +1,4 @@
-import { Comment as PComment, Profile } from "@prisma/client";
+import { Profile, Comment as PComment } from "@prisma/client";
 import { z } from "zod";
 import { User } from "src/libs/schema/user";
 
@@ -16,8 +16,10 @@ export const commentSchema = z.object({
 });
 
 export type CommentSchemaType = z.infer<typeof commentSchema>;
+
 export type Comment = PComment & {
-  user?: Pick<User, "id" | "name"> & {
+  user?: Pick<User, "id"> & {
+    name?: string | null;
     profile?: Pick<Profile, "bio">;
   };
 };

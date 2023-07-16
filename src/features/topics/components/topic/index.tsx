@@ -10,9 +10,10 @@ import { genMood } from "src/utils/mood";
 
 type Props = {
   topic: PTopic;
+  isSlug?: boolean;
 };
 
-export const Topic: FC<Props> = ({ topic }) => {
+export const Topic: FC<Props> = ({ topic, isSlug = false }) => {
   const Icon = genMood(topic?.moodId).icon;
 
   return (
@@ -21,17 +22,21 @@ export const Topic: FC<Props> = ({ topic }) => {
         <div className="flex items-center gap-4 font-semibold leading-6 text-gray-800">
           <Image
             alt={topic.title + (topic?.user?.name ?? "") + topic.id}
-            className="h-10 w-10 rounded-full bg-gray-50 ring-2 ring-white"
-            height={40}
+            className="rounded-full bg-gray-50 ring-2 ring-white"
+            height={isSlug ? 64 : 40}
             src={`${getImagePath()}/${topic?.user?.profile?.bio}`}
-            width={40}
+            width={isSlug ? 64 : 40}
           />
-          <Link
-            className="flex-1 underline hover:text-gray-600"
-            href={`/topics/${topic.id}`}
-          >
-            {topic.title}
-          </Link>
+          {isSlug ? (
+            <h2 className="flex-1 text-xl">{topic.title}</h2>
+          ) : (
+            <Link
+              className="flex-1 underline hover:text-gray-600"
+              href={`/topics/${topic.id}`}
+            >
+              {topic.title}
+            </Link>
+          )}
           <div
             className={clsx(
               genMood(topic.moodId).bgColor,
@@ -78,9 +83,9 @@ export const Topic: FC<Props> = ({ topic }) => {
             </p>
           </dd>
         </div>
-        <div className="flex flex-1 justify-end">
+        <div className="flex flex-1 justify-end -space-x-2.5">
           <dt className="sr-only">Commenters</dt>
-          {topic.comments?.map((comment) => (
+          {topic.comments?.slice(0, 3).map((comment) => (
             <div key={comment.id}>
               <Image
                 alt={comment.content + comment.id}
