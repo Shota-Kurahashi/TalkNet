@@ -5,8 +5,6 @@ import { ButtonLink } from "src/components/elements/ButtonLink";
 import { ProfilePageProps } from "src/libs/next/page";
 import { formatTimeDistance } from "src/utils/formatDistance";
 
-const IMAGE_PATH = process.env.NEXT_PUBLIC_IMAGE_PATH as string;
-
 export const ProfilePage = ({ profile, user }: ProfilePageProps) => {
   return (
     <div className="flex flex-1 flex-col">

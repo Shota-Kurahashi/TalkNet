@@ -21,9 +21,11 @@ Page.getTitle = Meta(() => "TalkNet");
 
 export const getServerSideProps = withSessionPage<TopPageProps>(
   async ({ user }) => {
-    const profile = await getProfile(user?.id);
-    const topics = await getTopics();
-    const moods = await getMoods();
+    const [profile, topics, moods] = await Promise.all([
+      getProfile(user?.id),
+      getTopics(),
+      getMoods(),
+    ]);
 
     return {
       user,
