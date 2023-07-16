@@ -1,4 +1,13 @@
+import {
+  FaceFrownIcon,
+  FaceSmileIcon as FaceSmileIconMini,
+  FireIcon,
+  HandThumbUpIcon,
+  HeartIcon,
+  XMarkIcon,
+} from "@heroicons/react/20/solid";
 import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
+import { HandThumbDownIcon } from "@heroicons/react/24/solid";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
@@ -6,7 +15,92 @@ import React, { FC } from "react";
 import { Topic as PTopic } from "src/libs/schema/topic";
 import { formatTimeDistance } from "src/utils/formatDistance";
 import { getImagePath } from "src/utils/getImagePath";
-import { genMood } from "src/utils/mood";
+
+export type GenMood = {
+  icon: React.ForwardRefExoticComponent<
+    Omit<React.SVGProps<SVGSVGElement>, "ref"> & {
+      title?: string | undefined;
+      titleId?: string | undefined;
+    } & React.RefAttributes<SVGSVGElement>
+  >;
+  iconColor: string;
+  bgColor: string;
+  id: number;
+};
+
+export const genMood = (id: number): GenMood => {
+  switch (id) {
+    case 1:
+      return {
+        id: 1,
+        icon: FireIcon,
+        iconColor: "text-white",
+        bgColor: "bg-red-500",
+      };
+    case 2:
+      return {
+        id: 2,
+        icon: HeartIcon,
+        iconColor: "text-white",
+        bgColor: "bg-pink-400",
+      };
+    case 3:
+      return {
+        id: 3,
+        icon: FaceSmileIconMini,
+        iconColor: "text-white",
+        bgColor: "bg-green-400",
+      };
+    case 4:
+      return {
+        id: 4,
+        icon: FaceFrownIcon,
+        iconColor: "text-white",
+        bgColor: "bg-yellow-400",
+      };
+    case 5:
+      return {
+        id: 5,
+        icon: HandThumbUpIcon,
+        iconColor: "text-white",
+        bgColor: "bg-blue-500",
+      };
+
+    case 6:
+      return {
+        id: 6,
+        icon: HandThumbDownIcon,
+        iconColor: "text-white",
+        bgColor: "bg-indigo-500",
+      };
+    default:
+      return {
+        id: 7,
+        icon: XMarkIcon,
+        iconColor: "text-white",
+        bgColor: "bg-gray-800",
+      };
+  }
+};
+
+export const parseJpMood = (name: string): string => {
+  switch (name) {
+    case "Excited":
+      return "最高";
+    case "Loved":
+      return "大好き";
+    case "Happy":
+      return "幸せ";
+    case "Sad":
+      return "悲しい";
+    case "Good":
+      return "いいね！";
+    case "Bad":
+      return "大嫌い";
+    default:
+      return "未評価";
+  }
+};
 
 type Props = {
   topic: PTopic;
@@ -20,13 +114,18 @@ export const Topic: FC<Props> = ({ topic, isSlug = false }) => {
     <li className="flex flex-col gap-x-6 gap-y-4 py-5 sm:flex-nowrap">
       <div>
         <div className="flex items-center gap-4 font-semibold leading-6 text-gray-800">
-          <Image
-            alt={topic.title + (topic?.user?.name ?? "") + topic.id}
-            className="rounded-full bg-gray-50 ring-2 ring-white"
-            height={isSlug ? 64 : 40}
-            src={`${getImagePath()}/${topic?.user?.profile?.bio}`}
-            width={isSlug ? 64 : 40}
-          />
+          <Link
+            className={clsx("relative", isSlug ? "h-16 w-16" : "h-10 w-10")}
+            href={`/users/${topic.userId}`}
+          >
+            <Image
+              alt={topic.title + (topic?.user?.name ?? "") + topic.id}
+              className="rounded-full bg-gray-50 ring-2 ring-white"
+              fill
+              src={`${getImagePath()}/${topic?.user?.profile?.bio}`}
+            />
+          </Link>
+
           {isSlug ? (
             <h2 className="flex-1 text-xl">{topic.title}</h2>
           ) : (

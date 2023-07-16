@@ -11,6 +11,7 @@ import React, { Fragment, FC } from "react";
 import { Avatar } from "src/components/elements/Avatar";
 import { Button } from "src/components/elements/Button";
 import { useLogout } from "src/features/auth/hooks/useLogout";
+import { getImagePath } from "src/utils/getImagePath";
 
 type Props = {
   setSidebarOpen: (open: boolean) => void;
@@ -24,8 +25,6 @@ const userNavigation = [
   { name: "Your profile", component: Link },
   { name: "Sign out", component: Button },
 ];
-
-const IMAGE_PATH = process.env.NEXT_PUBLIC_IMAGE_PATH as string;
 
 export const Header: FC<Props> = ({ setSidebarOpen, data }) => {
   const { onClickHandler } = useLogout();
@@ -80,7 +79,13 @@ export const Header: FC<Props> = ({ setSidebarOpen, data }) => {
           <Menu as="div" className="relative">
             <Menu.Button className="-m-1.5 flex items-center p-1.5">
               <span className="sr-only">Open user menu</span>
-              <Avatar src={`${IMAGE_PATH}/${data?.profile?.bio}`} />
+              <Avatar
+                src={
+                  data?.profile?.bio
+                    ? `${getImagePath()}/${data?.profile?.bio}`
+                    : undefined
+                }
+              />
               <span className="hidden lg:flex lg:items-center">
                 <span
                   aria-hidden="true"

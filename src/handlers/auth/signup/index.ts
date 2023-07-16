@@ -26,10 +26,12 @@ export const signUpHandler = async ({
     },
   });
 
-  const { id, email: userEmail } = newUser;
+  const { id, email: userEmail, name: userName, createdAt } = newUser;
 
   return {
     id,
     email: userEmail,
+    name: userName,
+    createdAt,
   };
 };

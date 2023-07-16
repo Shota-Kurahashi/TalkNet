@@ -12,7 +12,7 @@ export const Topics: FC<Props> = ({ topics }) => {
 
   return (
     <ul className="divide-y divide-gray-300">
-      {data.topics.map((topic) => (
+      {data.topics?.map((topic) => (
         <Topic key={topic.id} topic={topic} />
       ))}
     </ul>

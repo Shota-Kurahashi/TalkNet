@@ -1,8 +1,7 @@
 import Image from "next/image";
 import React from "react";
-import { Avatar } from "src/components/elements/Avatar";
 import { ButtonLink } from "src/components/elements/ButtonLink";
-import { Topics } from "src/features/topics/components/page/topics";
+import { Topic } from "src/features/topics/components/topic";
 import { ProfilePageProps } from "src/libs/next/page";
 import { formatTimeDistance } from "src/utils/formatDistance";
 import { getImagePath } from "src/utils/getImagePath";
@@ -20,10 +19,12 @@ export const ProfilePage = ({ profile, user, topics }: ProfilePageProps) => {
       </div>
       <div className="flex items-center justify-between">
         <div className="-mt-14 flex items-center px-2 py-4">
-          <Avatar
-            className="h-20 w-20"
-            online={false}
+          <Image
+            alt={user?.name || ""}
+            className="z-10 rounded-full ring-2 ring-white"
+            height={80}
             src={`${getImagePath()}/${profile?.bio}`}
+            width={80}
           />
         </div>
         <ButtonLink
@@ -46,7 +47,11 @@ export const ProfilePage = ({ profile, user, topics }: ProfilePageProps) => {
           <p>{profile?.introduction}</p>
         </div>
       </div>
-      <Topics topics={topics} />
+      <ul className="divide-y divide-gray-300">
+        {topics?.map((topic) => (
+          <Topic key={topic.id} topic={topic} />
+        ))}
+      </ul>
     </div>
   );
 };
