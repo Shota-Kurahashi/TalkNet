@@ -2,11 +2,12 @@ import Image from "next/image";
 import React from "react";
 import { Avatar } from "src/components/elements/Avatar";
 import { ButtonLink } from "src/components/elements/ButtonLink";
+import { Topics } from "src/features/topics/components/page/topics";
 import { ProfilePageProps } from "src/libs/next/page";
 import { formatTimeDistance } from "src/utils/formatDistance";
 import { getImagePath } from "src/utils/getImagePath";
 
-export const ProfilePage = ({ profile, user }: ProfilePageProps) => {
+export const ProfilePage = ({ profile, user, topics }: ProfilePageProps) => {
   return (
     <div className="flex flex-1 flex-col">
       <div className="h-56 overflow-hidden">
@@ -45,6 +46,7 @@ export const ProfilePage = ({ profile, user }: ProfilePageProps) => {
           <p>{profile?.introduction}</p>
         </div>
       </div>
+      <Topics topics={topics} />
     </div>
   );
 };

@@ -78,6 +78,7 @@ export const withSessionPage = <T>(nest: WithSessionNextFunction<T>) => {
 export type ProfilePageProps = {
   user: User;
   profile: Profile | null;
+  topics: Topic[];
 };
 
 export type ProfilePage = {
