@@ -1,5 +1,6 @@
 import { useRouter } from "next/router";
 import React from "react";
+import { CreateComment } from "src/features/comments/components/create";
 import { useQueryTopic } from "src/features/topics/api/useQueryTopic";
 import { Topic as CTopic } from "src/features/topics/components/topic";
 import { NotFoundError } from "src/libs/error";
@@ -14,5 +15,10 @@ export const Topic = ({ data }: TopicPage) => {
 
   if (!result.topic) throw new NotFoundError();
 
-  return <CTopic topic={result.topic} />;
+  return (
+    <div className="flex flex-col gap-y-10">
+      <CTopic topic={result.topic} />
+      <CreateComment topicId={Number(router.query.id)} />
+    </div>
+  );
 };
