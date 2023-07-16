@@ -15,6 +15,22 @@ export const createTopic = async (
         userId,
         moodId,
       },
+      include: {
+        user: {
+          include: {
+            profile: true,
+          },
+        },
+        comments: {
+          include: {
+            user: {
+              include: {
+                profile: true,
+              },
+            },
+          },
+        },
+      },
     });
 
     return topic;

@@ -12,7 +12,7 @@ export const topicSchema = z.object({
     .min(1, {
       message: "本文を入力してください。",
     }),
-  image: z.string().nullable(),
+  image: z.string().nullable().optional(),
   moodId: z.number({
     required_error: "気分を選択してください。",
   }),

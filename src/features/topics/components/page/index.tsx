@@ -6,14 +6,13 @@ import {
   HeartIcon,
   XMarkIcon,
 } from "@heroicons/react/20/solid";
-import {
-  ChatBubbleLeftIcon,
-  HandThumbDownIcon,
-} from "@heroicons/react/24/outline";
+import { ChatBubbleLeftIcon } from "@heroicons/react/24/outline";
+import { HandThumbDownIcon } from "@heroicons/react/24/solid";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
+import { useQueryTopics } from "src/features/topics/api/useQueryTopics";
 import { TopPageProps } from "src/libs/next/page";
 import { formatTimeDistance } from "src/utils/formatDistance";
 
@@ -90,9 +89,11 @@ type Props = {
 const IMAGE_PATH = process.env.NEXT_PUBLIC_IMAGE_PATH as string;
 
 export const Topic: FC<Props> = ({ topics }) => {
+  const { data } = useQueryTopics(topics);
+
   return (
     <ul className="divide-y divide-gray-300">
-      {topics.map((topic) => {
+      {data.topics.map((topic) => {
         const Icon = genMood(topic.moodId).icon;
 
         return (
@@ -137,6 +138,8 @@ export const Topic: FC<Props> = ({ topics }) => {
                   alt="プレビュー画像"
                   className="!relative mb-8 h-10 max-h-96 w-full object-scale-down"
                   fill
+                  loading="lazy"
+                  quality={80}
                   src={`${IMAGE_PATH}/${topic.image}`}
                 />
               )}
@@ -158,7 +161,7 @@ export const Topic: FC<Props> = ({ topics }) => {
                     <circle cx={1} cy={1} r={1} />
                   </svg>
                   <p>
-                    <time dateTime={topic.createdAt.toISOString()}>
+                    <time>
                       {`${formatTimeDistance(topic.createdAt)}に投稿`}
                     </time>
                   </p>
