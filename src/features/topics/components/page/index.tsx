@@ -101,7 +101,7 @@ export const Topic: FC<Props> = ({ topics }) => {
             className="flex flex-col gap-x-6 gap-y-4 py-5 sm:flex-nowrap"
           >
             <div>
-              <p className="flex items-center gap-4 font-semibold leading-6 text-gray-800">
+              <div className="flex items-center gap-4 font-semibold leading-6 text-gray-800">
                 <Image
                   alt={topic.title + (topic.user?.name ?? "") + topic.id}
                   className="h-10 w-10 rounded-full bg-gray-50 ring-2 ring-white"
@@ -129,7 +129,7 @@ export const Topic: FC<Props> = ({ topics }) => {
                     )}
                   />
                 </div>
-              </p>
+              </div>
             </div>
             <div>
               {topic.image && (
