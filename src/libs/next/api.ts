@@ -10,7 +10,7 @@ export type NextSessionRequest = NextApiRequest & {
 export type ApiHandler<T> = NextApiHandler<T | Error>;
 
 export const withSession = <T>(
-  next: (req: NextSessionRequest, res: NextApiResponse) => Promise<void | T>
+  next: (req: NextSessionRequest, res: NextApiResponse) => Promise<T | void>
 ) => {
   return async (req: NextApiRequest, res: NextApiResponse<T | Error>) => {
     try {

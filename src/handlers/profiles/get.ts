@@ -1,5 +1,4 @@
 /* eslint-disable consistent-return */
-import { NotFoundError } from "src/libs/error";
 import { prisma, prismaErrorHandler } from "src/libs/prisma";
 
 export const getProfile = async (userId: number) => {
@@ -10,7 +9,7 @@ export const getProfile = async (userId: number) => {
       },
     });
 
-    if (!profile) throw new NotFoundError();
+    if (!profile) return null;
 
     return profile;
   } catch (error) {

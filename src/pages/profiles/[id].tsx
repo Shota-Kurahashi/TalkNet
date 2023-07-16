@@ -28,6 +28,7 @@ export const getServerSideProps: GetServerSideProps =
         profile: null,
       };
     }
+
     const profile = await getProfile(user?.id);
 
     return {

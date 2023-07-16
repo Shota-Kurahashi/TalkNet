@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { Profile } from "@prisma/client";
+import { Profile, Topic } from "@prisma/client";
 import { GetServerSidePropsContext, NextPage } from "next";
 import { AppProps } from "next/app";
 import { ReactElement, ReactNode } from "react";
@@ -8,32 +8,8 @@ import { User } from "src/libs/schema/user";
 import { getSession } from "src/libs/session";
 import { assertUser } from "src/libs/validation";
 
-type PageProps =
-  | {
-      data: {
-        user: User | null;
-      };
-
-      error: null;
-    }
-  | {
-      data: null;
-      error: Error;
-    };
-
-type DefaultPageProps = {
-  data: {
-    user: null;
-    profile: null;
-  };
-  error: null;
-};
-
 // eslint-disable-next-line @typescript-eslint/ban-types
-export type NextPageWithLayout<
-  P extends PageProps = DefaultPageProps,
-  IP = P
-> = NextPage<P, IP> & {
+export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
   getLayout?: (page: ReactElement, pageProps: P) => ReactNode;
   getTitle?: (page: ReactElement, pageProps: P) => ReactElement;
 };
@@ -94,5 +70,14 @@ export type ProfilePageProps = {
 
 export type ProfilePage = {
   data: ProfilePageProps;
-  error: null;
+  error: null | Error;
+};
+
+export type TopPageProps = {
+  topics: Topic[];
+};
+
+export type TopPage = {
+  data: TopPageProps & ProfilePageProps;
+  error: null | Error;
 };

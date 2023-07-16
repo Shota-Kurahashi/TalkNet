@@ -17,9 +17,7 @@ const handleGet = withSession(async (req, res) => {
       "Content-Type": req.query.fileType,
     },
     Expires: 60, // seconds
-    Conditions: [
-      ["content-length-range", 0, 10 * 1024 * 1024], // up to 10 MB
-    ],
+    Conditions: [["content-length-range", 0, 100 * 1024 * 1024]],
   });
 
   res.status(200).json(post);

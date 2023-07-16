@@ -1,3 +1,4 @@
+import { User as PUser } from "@prisma/client";
 import { z } from "zod";
 
 export const UserSchema = z.object({
@@ -9,3 +10,7 @@ export const UserSchema = z.object({
 });
 
 export type User = z.infer<typeof UserSchema>;
+
+export type UserReturn = {
+  user: PUser;
+};

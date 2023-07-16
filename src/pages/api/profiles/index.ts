@@ -27,9 +27,7 @@ const putHandler = withSession<ProfileReturn>(async (req, res) => {
     const { user } = req;
     const profile = await updateProfile(user.id, req.body);
 
-    res.status(200).json({
-      profile,
-    });
+    res.status(200).json({ profile });
   } catch (error) {
     handleApiError({ res, error });
   }
