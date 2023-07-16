@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/ban-types */
-import { Profile, Topic } from "@prisma/client";
+import { Profile, Topic, User } from "@prisma/client";
 import { GetServerSidePropsContext, NextPage } from "next";
 import { AppProps } from "next/app";
 import { ReactElement, ReactNode } from "react";
 import { Error, HttpError, UnauthorizedError } from "src/libs/error";
-import { User } from "src/libs/schema/user";
+
 import { getSession } from "src/libs/session";
 import { assertUser } from "src/libs/validation";
 

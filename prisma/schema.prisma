@@ -31,6 +31,14 @@ model Profile {
   @@unique([userId])
 }
 
+model Mood {
+  id        Int       @id @default(autoincrement())
+  name      String
+  createdAt DateTime  @default(now())
+  topics    Topic[]
+}
+
+
 model Topic {
   id        Int       @id @default(autoincrement())
   title     String
@@ -39,6 +47,8 @@ model Topic {
   userId    Int
   user      User      @relation(fields: [userId], references: [id])
   comments  Comment[]
+  moodId    Int
+  mood      Mood      @relation(fields: [moodId], references: [id])
   createdAt DateTime  @default(now())
 }
 
@@ -52,4 +62,5 @@ model Comment {
   topic     Topic     @relation(fields: [topicId], references: [id])
   createdAt DateTime  @default(now())
 }
+
 

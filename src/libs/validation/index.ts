@@ -1,6 +1,7 @@
+import { User } from "@prisma/client";
 import { ZodSchema, z } from "zod";
 import { UnauthorizedError } from "src/libs/error";
-import { User, UserSchema } from "src/libs/schema/user";
+import { UserSchema } from "src/libs/schema/user";
 
 export function assertUser(user: unknown): asserts user is User {
   try {

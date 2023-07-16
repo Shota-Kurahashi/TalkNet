@@ -1,11 +1,10 @@
-import { Profile } from "@prisma/client";
+import { Profile, User } from "@prisma/client";
 import { ReactElement, useState } from "react";
 import { Background } from "src/components/elements/Background";
 import { Aside } from "src/components/layouts/aisde";
 import { Header } from "src/components/layouts/header";
 import { Provider } from "src/components/layouts/provider";
 import { Error } from "src/libs/error";
-import { User } from "src/libs/schema/user";
 
 export const LayoutProvider = ({ children }: { children: React.ReactNode }) => (
   <Provider>{children}</Provider>

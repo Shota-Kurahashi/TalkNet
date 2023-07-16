@@ -5,7 +5,7 @@ import {
   PrismaClientUnknownRequestError,
   PrismaClientValidationError,
 } from "@prisma/client/runtime";
-import { BadRequestError, InternalServerError } from "src/libs/error";
+import { BadRequestError, InternalServerError } from "../error";
 
 export const prisma = new PrismaClient();
 if (process.env.NODE_ENV === "development") {

@@ -4,14 +4,13 @@ import {
   MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
 import { Bars3Icon, BellIcon } from "@heroicons/react/24/outline";
-import { Profile } from "@prisma/client";
+import { Profile, User } from "@prisma/client";
 import clsx from "clsx";
 import Link from "next/link";
 import React, { Fragment, FC } from "react";
 import { Avatar } from "src/components/elements/Avatar";
 import { Button } from "src/components/elements/Button";
 import { useLogout } from "src/features/auth/hooks/useLogout";
-import { User } from "src/libs/schema/user";
 
 type Props = {
   setSidebarOpen: (open: boolean) => void;
