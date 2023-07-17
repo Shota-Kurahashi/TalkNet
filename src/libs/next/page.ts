@@ -104,3 +104,13 @@ export type TopicPage = {
   data: TopicPageProps & ProfilePageProps;
   error: null | Error;
 };
+export type UserPageProps = {
+  currentUser: User | null;
+  currentProfile: Profile | null;
+  topics: Topic[];
+};
+
+export type UserPage = {
+  data: UserPageProps & ProfilePageProps;
+  error: null | Error;
+};
