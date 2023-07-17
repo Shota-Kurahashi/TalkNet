@@ -18,4 +18,4 @@ Dockerfile
 docker-compose.*.yml
 README.md
 prisma/
-
+entrypoint.sh

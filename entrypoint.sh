@@ -16,5 +16,6 @@ npx prisma generate
 # Prismaのシードを実行
 npx prisma db seed
 
+
 # アプリケーションを起動
 npm run start
