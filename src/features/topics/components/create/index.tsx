@@ -16,13 +16,15 @@ export const CreateTopic: FC<Props> = ({ profile, moods }) => {
   return (
     <div className="flex items-start space-x-4 rounded-xl bg-white/50 p-2">
       <div className="shrink-0">
-        <Avatar
-          alt=""
-          className="inline-block h-10 w-10 rounded-full"
-          height={40}
-          src={profile?.bio ? `${getImagePath()}/${profile?.bio}` : undefined}
-          width={40}
-        />
+        {profile?.bio && (
+          <Avatar
+            alt=""
+            className="inline-block h-10 w-10 rounded-full"
+            height={40}
+            src={profile?.bio ? `${getImagePath()}/${profile?.bio}` : undefined}
+            width={40}
+          />
+        )}
       </div>
       <div className="min-w-0 flex-1">
         <TopicForm isLoading={isLoading} moods={moods} onValid={onValid} />

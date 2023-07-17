@@ -118,12 +118,14 @@ export const Topic: FC<Props> = ({ topic, isSlug = false }) => {
             className={clsx("relative", isSlug ? "h-16 w-16" : "h-10 w-10")}
             href={`/users/${topic.userId}`}
           >
-            <Image
-              alt={topic.title + (topic?.user?.name ?? "") + topic.id}
-              className="rounded-full bg-gray-50 ring-2 ring-white"
-              fill
-              src={`${getImagePath()}/${topic?.user?.profile?.bio}`}
-            />
+            {topic?.user?.profile?.bio && (
+              <Image
+                alt={topic.title + (topic?.user?.name ?? "") + topic.id}
+                className="rounded-full bg-gray-50 ring-2 ring-white"
+                fill
+                src={`${getImagePath()}/${topic?.user?.profile?.bio}`}
+              />
+            )}
           </Link>
 
           {isSlug ? (
@@ -186,14 +188,16 @@ export const Topic: FC<Props> = ({ topic, isSlug = false }) => {
           <dt className="sr-only">Commenters</dt>
           {topic.comments?.slice(0, 3).map((comment) => (
             <div key={comment.id}>
-              <Image
-                alt={comment.content + comment.id}
-                className="h-6 w-6 rounded-full bg-gray-50 ring-2
-                ring-white"
-                height={24}
-                src={`${getImagePath()}/${topic.user?.profile?.bio}`}
-                width={24}
-              />
+              {comment.user?.profile?.bio && (
+                <Image
+                  alt={comment.content + comment.id}
+                  className="h-6 w-6 rounded-full bg-gray-50 ring-2
+                  ring-white"
+                  height={24}
+                  src={`${getImagePath()}/${topic.user?.profile?.bio}`}
+                  width={24}
+                />
+              )}
             </div>
           ))}
         </div>

@@ -13,3 +13,9 @@ __reports__
 coverage
 storybook-static
 package.json
+*.sh
+Dockerfile
+docker-compose.*.yml
+README.md
+prisma/
+

@@ -16,24 +16,39 @@ services:
     image: redis:latest
     ports:
       - 6379:6379
-
     volumes:
-      - ./data/redis:/data
+      - redis_data:/data
   minio:
     image: minio/minio:latest
     environment:
       MINIO_ROOT_USER: user
       MINIO_ROOT_PASSWORD: password
+      MINIO_ACCESS_KEY: user
+      MINIO_SECRET_KEY: password
     volumes:
-      - ./data/minio:/data
-    command: server --console-address ":9001" /data
+      - "minio:/data"
+    command: ["server", "/data", "--console-address", ":9001"]
     ports:
       - 9000:9000
       - 9001:9001
+  createbuckets:
+    image: minio/mc:latest
+    depends_on:
+      - minio
+    entrypoint: >
+      /bin/sh -c "
+      until mc alias set minio http://minio:9000 user password; do
+        sleep 1;
+      done;
+      mc mb --ignore-existing minio/images;
+      mc anonymous set public minio/images;
+      "
   app:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        DATABASE_URL: mysql://root:root@db:3306/db
     volumes:
       - .:/app
     ports:
@@ -41,14 +56,18 @@ services:
     environment:
       REDIS_HOST: redis
       REDIS_PORT: 6379
-      AWS_S3_ENDPOINT: http://minio:9000
-      AWS_ACCESS_KEY_ID: root
+      AWS_S3_ENDPOINT: http://localhost:9000
+      AWS_ACCESS_KEY_ID: user
       AWS_SECRET_ACCESS_KEY: password
-      DATABASE_URL: mysql://root:root@localhost:3306/db
+      DATABASE_URL: mysql://root:root@db:3306/db
+      NEXT_PUBLIC_IMAGE_PATH: http://minio:9000/images
     depends_on:
       - db
       - redis
       - minio
+      - createbuckets
 
 volumes:
   maria_data:
+  minio:
+  redis_data:

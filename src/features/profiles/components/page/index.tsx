@@ -10,22 +10,26 @@ export const ProfilePage = ({ profile, user, topics }: ProfilePageProps) => {
   return (
     <div className="flex flex-1 flex-col">
       <div className="h-56 overflow-hidden">
-        <Image
-          alt={user?.name || ""}
-          className="!relative  w-full rounded-t-3xl object-cover"
-          fill
-          src={`${getImagePath()}/${profile?.cover_img}`}
-        />
+        {profile?.cover_img && (
+          <Image
+            alt={user?.name || ""}
+            className="!relative  w-full rounded-t-3xl object-cover"
+            fill
+            src={`${getImagePath()}/${profile?.cover_img}`}
+          />
+        )}
       </div>
       <div className="flex items-center justify-between">
         <div className="-mt-14 flex items-center px-2 py-4">
-          <Image
-            alt={user?.name || ""}
-            className="z-10 h-20 w-20 rounded-full object-cover ring-2 ring-white"
-            height={80}
-            src={`${getImagePath()}/${profile?.bio}`}
-            width={80}
-          />
+          {profile?.bio && (
+            <Image
+              alt={user?.name || ""}
+              className="z-10 h-20 w-20 rounded-full object-cover ring-2 ring-white"
+              height={80}
+              src={`${getImagePath()}/${profile?.bio}`}
+              width={80}
+            />
+          )}
         </div>
         <ButtonLink
           href={`/profiles/${user?.id}?type=edit`}

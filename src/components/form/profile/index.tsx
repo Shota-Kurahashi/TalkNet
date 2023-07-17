@@ -119,7 +119,8 @@ export const ProfileForm: FC<Props> = ({ onValid, defaultValues }) => {
                       className="!relative rounded-full object-cover group-hover:opacity-75"
                       height={48}
                       src={
-                        previewBio || `${getImagePath()}/${defaultValues?.bio}`
+                        previewBio ||
+                        `http://minio:9000/images/${defaultValues?.bio}`
                       }
                       width={48}
                     />

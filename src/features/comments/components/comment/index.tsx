@@ -11,13 +11,15 @@ export const Comment: FC<Props> = ({ comment }) => {
   return (
     <li className="flex py-4">
       <div className="mr-4 shrink-0">
-        <Image
-          alt={comment.user?.name ?? "User"}
-          className="rounded-full"
-          height={52}
-          src={`${getImagePath()}/${comment.user?.profile?.bio}`}
-          width={52}
-        />
+        {comment.user?.profile?.bio && (
+          <Image
+            alt={comment.user?.name ?? "User"}
+            className="rounded-full"
+            height={52}
+            src={`${getImagePath()}/${comment.user?.profile?.bio}`}
+            width={52}
+          />
+        )}
       </div>
       <div>
         <h4 className="text-lg font-bold">{comment.user?.name ?? "User"}</h4>

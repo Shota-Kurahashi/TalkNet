@@ -6,9 +6,9 @@ import {
 import { Bars3Icon, BellIcon } from "@heroicons/react/24/outline";
 import { Profile, User } from "@prisma/client";
 import clsx from "clsx";
+import Image from "next/image";
 import Link from "next/link";
 import React, { Fragment, FC } from "react";
-import { Avatar } from "src/components/elements/Avatar";
 import { Button } from "src/components/elements/Button";
 import { useLogout } from "src/features/auth/hooks/useLogout";
 import { getImagePath } from "src/utils/getImagePath";
@@ -79,13 +79,18 @@ export const Header: FC<Props> = ({ setSidebarOpen, data }) => {
           <Menu as="div" className="relative">
             <Menu.Button className="-m-1.5 flex items-center p-1.5">
               <span className="sr-only">Open user menu</span>
-              <Avatar
-                src={
-                  data?.profile?.bio
-                    ? `${getImagePath()}/${data?.profile?.bio}`
-                    : undefined
-                }
-              />
+              {data?.profile?.bio && (
+                <span className="relative inline-block">
+                  <Image
+                    alt={data?.user?.name ?? ""}
+                    className="h-8 w-8 rounded-full"
+                    height={32}
+                    src={`${getImagePath()}/${data?.profile?.bio}`}
+                    width={32}
+                  />
+                  <span className="absolute bottom-0 right-0 block h-1.5 w-1.5 rounded-full bg-green-500 ring-2 ring-white" />
+                </span>
+              )}
               <span className="hidden lg:flex lg:items-center">
                 <span
                   aria-hidden="true"
