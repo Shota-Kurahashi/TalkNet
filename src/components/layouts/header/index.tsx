@@ -22,8 +22,8 @@ type Props = {
 };
 
 const userNavigation = [
-  { name: "Your profile", component: Link },
-  { name: "Sign out", component: Button },
+  { name: "プロフィールへ", component: Link },
+  { name: "ログアウト", component: Button },
 ];
 
 export const Header: FC<Props> = ({ setSidebarOpen, data }) => {

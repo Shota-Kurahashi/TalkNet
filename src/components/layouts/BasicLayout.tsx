@@ -29,7 +29,11 @@ export const BasicLayout = <T extends PageProps>(
   return (
     <LayoutProvider>
       <div className="min-h-screen">
-        <Aside setSidebarOpen={setSidebarOpen} sidebarOpen={sidebarOpen} />
+        <Aside
+          data={data}
+          setSidebarOpen={setSidebarOpen}
+          sidebarOpen={sidebarOpen}
+        />
         <div className="lg:pl-72">
           <Background />
           <Header data={data} setSidebarOpen={setSidebarOpen} />
