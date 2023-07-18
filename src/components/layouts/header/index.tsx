@@ -3,12 +3,13 @@ import {
   ChevronDownIcon,
   MagnifyingGlassIcon,
 } from "@heroicons/react/20/solid";
-import { Bars3Icon, BellIcon } from "@heroicons/react/24/outline";
+import { Bars3Icon } from "@heroicons/react/24/outline";
 import { Profile, User } from "@prisma/client";
 import clsx from "clsx";
 import Image from "next/image";
 import Link from "next/link";
-import React, { Fragment, FC } from "react";
+import { useRouter } from "next/router";
+import React, { Fragment, FC, useState } from "react";
 import { Button } from "src/components/elements/Button";
 import { useLogout } from "src/features/auth/hooks/useLogout";
 import { getImagePath } from "src/utils/getImagePath";
@@ -28,6 +29,22 @@ const userNavigation = [
 
 export const Header: FC<Props> = ({ setSidebarOpen, data }) => {
   const { onClickHandler } = useLogout();
+  const router = useRouter();
+  const [query, setQuery] = useState("");
+
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+
+    setQuery(e.target.value);
+  };
+
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    if (!query) return;
+
+    router.push(`/topics/search?q=${query}`);
+  };
 
   return (
     <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
@@ -44,7 +61,7 @@ export const Header: FC<Props> = ({ setSidebarOpen, data }) => {
       <div aria-hidden="true" className="h-6 w-px bg-gray-900/10 lg:hidden" />
 
       <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-        <form action="#" className="relative flex flex-1" method="GET">
+        <form className="relative flex flex-1" onSubmit={submitHandler}>
           <label className="sr-only" htmlFor="search-field">
             Search
           </label>
@@ -56,19 +73,13 @@ export const Header: FC<Props> = ({ setSidebarOpen, data }) => {
             className="block h-full w-full border-0 py-0 pl-8 pr-0 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm"
             id="search-field"
             name="search"
-            placeholder="Search..."
+            onChange={changeHandler}
+            placeholder="タイトルで検索..."
             type="search"
+            value={query}
           />
         </form>
         <div className="flex items-center gap-x-4 lg:gap-x-6">
-          <button
-            className="-m-2.5 p-2.5 text-gray-400 hover:text-gray-500"
-            type="button"
-          >
-            <span className="sr-only">View notifications</span>
-            <BellIcon aria-hidden="true" className="h-6 w-6" />
-          </button>
-
           {/* Separator */}
           <div
             aria-hidden="true"

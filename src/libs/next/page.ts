@@ -114,3 +114,13 @@ export type UserPage = {
   data: UserPageProps & ProfilePageProps;
   error: null | Error;
 };
+
+export type SearchPageProps = {
+  topics: Topic[];
+  moods: Mood[];
+};
+
+export type SearchPage = {
+  data: SearchPageProps & ProfilePageProps;
+  error: null | Error;
+};
