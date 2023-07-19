@@ -35,15 +35,11 @@ COPY --from=builder /app/public        public
 COPY --from=builder /app/.next         .next
 COPY --from=builder /app/prisma        ./prisma
 COPY --from=builder /app/node_modules  node_modules
-COPY --from=builder /app/entrypoint.sh ./entrypoint.sh
 
-COPY entrypoint.sh ./
-RUN chmod +x ./entrypoint.sh
 EXPOSE 3000
 
 ENV NEXT_TELEMETRY_DISABLED 1
 ENV NODE_ENV production
 ENV PORT 3000
 
-# エントリーポイントスクリプトを実行
-CMD ["./entrypoint.sh"]
+CMD ["npm", "run", "start"]

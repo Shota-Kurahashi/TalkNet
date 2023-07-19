@@ -1,7 +1,20 @@
-# 以下のコマンドを実行してください。
+# 以下のコマンドを実行してください。(環境によって 10 分以上かかる場合があります。)
 
 ```bash
 $ docker compose -f docker-compose.prod.yml up -d
+
+# prismaのマイグレーションを実行してください。(初回のみ)
+
+$ docker compose -f docker-compose.prod.yml exec app npx prisma migrate deploy
+
+# prismaのgenerateを実行してください。(初回のみ)
+
+$ docker compose -f docker-compose.prod.yml exec app npx prisma generate
+
+# prismaのseedを実行してください。(初回のみ)
+
+$ docker compose -f docker-compose.prod.yml exec app npx prisma db seed
+
 
 # localhost:3000 にアクセスしてください。
 
