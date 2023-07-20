@@ -39,7 +39,7 @@ $ docker compose -f docker-compose.prod.yml up -d
 $ sh ./createbuckets.sh
 ```
 
-###　画像選択ボタンが反応しない場合は、一度画面を閉じると反応するようになります。
+画像選択ボタンが反応しない場合は、一度画面を閉じると反応するようになります。
 
 ### それでもエラーが発生している場合は、GitHub から clone して再度実行してください。
 
