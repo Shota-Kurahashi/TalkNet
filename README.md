@@ -44,7 +44,7 @@ $ sh ./createbuckets.sh
 ### それでもエラーが発生している場合は、GitHub から clone して再度実行してください。
 
 ```bash
-$ git clone https://github.com/Shota-Kurahashi/TalkNet.git
+$ git clone https://github.com/shouta0715/TalkNet.git
 ```
 
 2023 年 7 月 19 日 M1 MacBook Air で動作確認済み
