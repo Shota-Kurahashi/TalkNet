@@ -14,13 +14,13 @@ services:
       - ./sql/:/docker-entrypoint-initdb.d
 
   redis:
-    image: redis:latest
+    image: redis:6.0.20
     ports:
       - 6379:6379
     volumes:
       - redis_data:/data
   minio:
-    image: minio/minio:latest
+    image: minio/minio:RELEASE.2023-07-21T21-12-44Z
     environment:
       MINIO_ROOT_USER: user
       MINIO_ROOT_PASSWORD: password
@@ -33,7 +33,7 @@ services:
       - 9000:9000
       - 9001:9001
   createbuckets:
-    image: minio/mc:latest
+    image: minio/mc:RELEASE.2023-07-21T20-44-27Z
     depends_on:
       - minio
     entrypoint: >

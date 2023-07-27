@@ -1,6 +1,19 @@
 # 以下のコマンドを実行してください。(環境によって 10 分以上かかる場合があります。)
 
+### GitHub から clone してください。(すでにファイルが存在する場合は除く)
+
+````bash
+$ git clone https://github.com/shouta0715/TalkNet.git
+
+# envファイルを作成してください。
+
+echo 'DATABASE_URL="mysql://user:password@db:3306/db"' > .env
+
+echo -e 'REDIS_HOST=redis\nREDIS_PORT=6379\nAWS_S3_ENDPOINT=http://localhost:9000\nAWS_ACCESS_KEY_ID=user\nAWS_SECRET_ACCESS_KEY=password\nDATABASE_URL=mysql://user:password@db:3306/db' > .env.local
+
+
 ```bash
+
 $ docker compose -f docker-compose.prod.yml up -d
 
 # prismaのマイグレーションを実行してください。(初回のみ)
@@ -23,7 +36,7 @@ open http://localhost:3000
 # 終了するときは以下のコマンドを実行してください。
 
 $ docker compose -f docker-compose.prod.yml down
-```
+````
 
 ### データベースの起動のタイミングによっては、エラーが発生する場合があります。その場合は一度コンテナを停止してから再度起動してください。
 
