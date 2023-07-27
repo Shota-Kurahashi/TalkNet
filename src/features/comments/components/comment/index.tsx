@@ -14,10 +14,10 @@ export const Comment: FC<Props> = ({ comment }) => {
         {comment.user?.profile?.bio && (
           <Image
             alt={comment.user?.name ?? "User"}
-            className="rounded-full"
-            height={52}
+            className="z-10 h-14 w-14 rounded-full object-cover ring-2 ring-white"
+            height={56}
             src={`${getImagePath()}/${comment.user?.profile?.bio}`}
-            width={52}
+            width={56}
           />
         )}
       </div>
