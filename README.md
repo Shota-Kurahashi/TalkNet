@@ -10,7 +10,7 @@ $ git clone https://github.com/shouta0715/TalkNet.git
 echo 'DATABASE_URL="mysql://user:password@db:3306/db"' > .env
 
 echo -e 'REDIS_HOST=redis\nREDIS_PORT=6379\nAWS_S3_ENDPOINT=http://localhost:9000\nAWS_ACCESS_KEY_ID=user\nAWS_SECRET_ACCESS_KEY=password\nDATABASE_URL=mysql://user:password@db:3306/db' > .env.local
-```
+````
 
 ```bash
 
