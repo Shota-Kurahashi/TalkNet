@@ -1,4 +1,3 @@
-import { z } from "zod";
 import { createComment, getComments } from "src/handlers/comments";
 import { handleApiError, notArrowedHandler } from "src/libs/error";
 import { ApiHandler, withSession } from "src/libs/next/api";
@@ -12,14 +11,9 @@ import { validate } from "src/libs/validation";
 
 const getHandler = withSession<CommentsReturn>(async (req, res) => {
   try {
-    validate(
-      req.query,
-      z.object({
-        id: z.number(),
-      })
-    );
+    const id = Number(req.query.id);
 
-    const comments = await getComments(req.query.id);
+    const comments = await getComments(id);
     res.status(200).json({
       comments,
     });

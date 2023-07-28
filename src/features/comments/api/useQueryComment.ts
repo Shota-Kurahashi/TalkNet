@@ -4,7 +4,7 @@ import { Comment, CommentsReturn } from "src/libs/schema/comment";
 
 const getComment = async (id: number) => {
   const data = await axios
-    .get<CommentsReturn>(`/comments?id=${id}`)
+    .get<CommentsReturn>(`/topics/${id}/comments`)
     .then((res) => res.data);
 
   return data;

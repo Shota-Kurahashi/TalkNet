@@ -8,7 +8,7 @@ import {
 
 const createComment = async (body: CommentSchemaType) => {
   const data = await axios
-    .post<CommentReturn>("/comments", body)
+    .post<CommentReturn>(`/topics/${body.topicId}/comments`, body)
     .then((res) => res.data);
 
   return data;
