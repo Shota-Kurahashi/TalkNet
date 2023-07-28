@@ -53,6 +53,7 @@ services:
     volumes:
       - .:/app
       - node_modules:/app/node_modules
+      - nextjs:/app/.next
     ports:
       - "3000:3000"
     environment:
@@ -74,3 +75,4 @@ volumes:
   minio:
   redis_data:
   node_modules:
+  nextjs:
