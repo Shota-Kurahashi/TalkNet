@@ -5,6 +5,8 @@
 ````bash
 $ git clone https://github.com/shouta0715/TalkNet.git
 
+cd TalkNet
+
 # envファイルを作成してください。
 
 echo 'DATABASE_URL="mysql://user:password@db:3306/db"' > .env
